@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VoiceAlarm.iml" filepath="$PROJECT_DIR$/VoiceAlarm.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kfgd_naver/kfgd_naver.iml" filepath="$PROJECT_DIR$/kfgd_naver/kfgd_naver.iml" />
     </modules>
   </component>
 </project>
