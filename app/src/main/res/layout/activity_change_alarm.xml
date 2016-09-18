@@ -66,8 +66,7 @@
             android:id="@+id/ChangeSpeaked"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="직접입력"
-            android:enabled="false"></EditText>
+            android:hint="직접입력"></EditText>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

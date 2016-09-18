@@ -37,9 +37,9 @@ public class AlarmList extends FragmentActivity {
         listcore.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AlarmList.this, position, Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(AlarmList.this, AlarmList.class);
-                intent.putExtra("id", position);
+
+                Intent intent=new Intent(AlarmList.this, ChangeAlarm.class);
+                intent.putExtra("position", position);
                 startActivity(intent);
                 finish();
             }
