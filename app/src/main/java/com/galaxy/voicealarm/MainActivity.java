@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void RunAddAlarm(View view){
-        Intent intent=new Intent(MainActivity.this, AddAlarm.class);
+    public void RunAlarmList(View view){
+        Intent intent=new Intent(MainActivity.this, AlarmList.class);
         startActivity(intent);
         finish();
     }

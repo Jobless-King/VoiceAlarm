@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".RunAlarm" />
         <activity android:name=".AddAlarm" />
+        <activity android:name=".AlarmList"></activity>
     </application>
 
 </manifest>
