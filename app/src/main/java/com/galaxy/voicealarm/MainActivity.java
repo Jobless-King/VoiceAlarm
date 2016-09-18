@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
         naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "", new VoiceManager());
     }
 
-
-
     public void RunAlarmList(View view){
         Intent intent=new Intent(MainActivity.this, AlarmList.class);
         startActivity(intent);

@@ -4,29 +4,31 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
+import android.support.v4.app.FragmentActivity;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class AddAlarm extends AppCompatActivity {
 
-    ArrayList<String> arraylist;
-    private TextView outputTime;
-    Spinner automaticInput;
+    private ArrayList<String> arraylist;
+    private Button outputTime;
+    private Spinner automaticInput;
     private int selectedHour, selectedMinute;
     private String selectedSchedule = "지정어";
-    static final int DATE_DIALOG_ID=0;
     static final int TIME_DIALOG_ID=1;
 
     @Override
@@ -34,7 +36,7 @@ public class AddAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alarm);
 
-        outputTime = (TextView)findViewById(R.id.OutputTime);
+        outputTime = (Button)findViewById(R.id.OutputTime);
         arraylist = new ArrayList<String>();
         arraylist.add("어서 "+selectedSchedule+" 해라");
         arraylist.add("두번 "+selectedSchedule+" 해라");
@@ -75,7 +77,15 @@ public class AddAlarm extends AppCompatActivity {
     }
 
     public void Add(View view){
-        Intent intent=new Intent(AddAlarm.this, RunAlarm.class);
+        int time = selectedHour*100+selectedMinute;
+        String speaking = (String)automaticInput.getSelectedItem();
+
+        DBHelper dbHelper = new DBHelper(getApplicationContext(), "Alarm");
+        if(time == 404)
+            Toast.makeText(this, "충격과 공포다 그지 깡깡이들아", Toast.LENGTH_SHORT).show();
+        dbHelper.query("INSERT INTO Alarm VALUES(null, " + 1111111 + ", " + time + ", '" + speaking + "')");
+        Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(AddAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();
     }

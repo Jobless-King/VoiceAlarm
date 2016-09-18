@@ -7,23 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.galaxy.voicealarm.AlarmList"
-    android:orientation="vertical"
-    android:layout_gravity="center">
+    tools:context="com.galaxy.voicealarm.ListAdapter">
 
-    <ListView
-        android:id="@+id/ListCore"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/cross"/>
 
-    <Button
-        android:onClick="RunAddAlarm"
+    <TextView
+        android:id="@+id/AddedAlarm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_height="80dp"
         android:textSize="20dp"
-        android:text = "Alarm"
-        android:background="#ffffff" />
+        android:background="#eeeeee"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

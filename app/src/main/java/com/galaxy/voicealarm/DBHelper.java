@@ -8,8 +8,8 @@ public class DBHelper extends SQLiteOpenHelper{
         super(context, DBName, null, 1);
     }
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE Schedule(_id integer primary key autoincrement, datetime double, content text)");
-        db.execSQL("CREATE TABLE Alarm(_id integer primary key autoincrement, week integer, name text)");
+        db.execSQL("CREATE TABLE Schedule(_id INTEGER PRIMARY KEY AUTOINCREMENT, datetime DOUBLE, content TEXT)");
+        db.execSQL("CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT)");
     }
     public void onUpgrade(SQLiteDatabase db, int oloVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS Schedule");

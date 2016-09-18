@@ -7,12 +7,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.galaxy.voicealarm.AddAlarm"
+    tools:context="com.galaxy.voicealarm.ChangeAlarm"
     android:orientation="vertical"
     android:gravity="center">
 
     <Button
-        android:id="@+id/OutputTime"
+        android:id="@+id/ChangeOutputTime"
         android:onClick="InputTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:background="@drawable/name"
             android:layout_gravity="center_vertical"/>
         <Spinner
-            android:id="@+id/AutomaticInput"
+            android:id="@+id/ChangeAutomaticInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </Spinner>
@@ -63,7 +63,7 @@
             android:background="@drawable/cross"
             android:layout_gravity="center_vertical" />
         <EditText
-            android:id="@+id/Speaked"
+            android:id="@+id/ChangeSpeaked"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="직접입력"
@@ -75,21 +75,25 @@
         android:gravity="center"
         android:weightSum="1">
         <Button
-            android:onClick="Add"
+            android:onClick="Change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="20dp"
-            android:text="등록"
-            android:textSize="30dp"
-            android:layout_weight="0.50" />
+            android:text="변경"
+            android:textSize="30dp"/>
         <Button
             android:onClick="Cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="취소"
-            android:textSize="30dp"
-            android:layout_weight="0.50" />
+            android:textSize="30dp"/>
+        <Button
+            android:onClick="Delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="삭제"
+            android:textSize="30dp"/>
     </LinearLayout>
 </LinearLayout>
