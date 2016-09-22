@@ -3,46 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_color"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#aaaaaa"
-    android:layout_margin="2dp"
+    android:onClick="OnResetFocus"
     tools:context="com.galaxy.voicealarm.MainActivity">
 
-    <CalendarView
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:layout_margin="2dp"
-        android:background="#ffffff">
-    </CalendarView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-        <TextView
-            android:gravity="center"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:background="#ffffff"
-            android:text="날짜" />
-        <TextView
-            android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <com.stacktips.view.CustomCalendarView
+            android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:background="#ffffff"
-            android:text="일정" />
-        </LinearLayout>
-    <Button
-        android:onClick="RunAlarmList"
-        android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/off_white"
+            app:calendarBackgroundColor="@color/off_white"
+            app:calendarTitleTextColor="@color/black"
+            app:currentDayOfMonthColor="@color/blue"
+            app:dayOfMonthTextColor="@color/black"
+            app:dayOfWeekTextColor="@color/black"
+            app:disabledDayBackgroundColor="@color/off_white"
+            app:disabledDayTextColor="@color/grey"
+            app:selectedDayBackgroundColor="@color/blue"
+            app:titleLayoutBackgroundColor="@color/white"
+            app:weekLayoutBackgroundColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:textSize="20dp"
-        android:text = "Alarm"
-        android:background="#ffffff" />
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_horizontal">
+        <EditText
+            android:id="@+id/memo_edit"
+            android:layout_width="300dp"
+            android:layout_height="100dp"/>
+        <ImageButton
+            android:id="@+id/memo_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:src="@drawable/main_alarm"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:onClick="RunAlarmList" />
 
 </LinearLayout>

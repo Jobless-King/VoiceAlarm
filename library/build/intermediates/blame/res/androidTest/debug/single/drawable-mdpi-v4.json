@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_blue.png",
+        "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_blue.png"
+    },
+    {
+        "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_blue_soft.png",
+        "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_blue_soft.png"
+    },
+    {
+        "merged": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_blue_soft.png",
+        "source": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_blue_soft.png"
+    },
+    {
+        "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_gray_soft.png",
+        "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_gray_soft.png"
+    },
+    {
+        "merged": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_gray_soft.png",
+        "source": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_gray_soft.png"
+    },
+    {
+        "merged": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_blue.png",
+        "source": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_blue.png"
+    },
+    {
+        "merged": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_gray.png",
+        "source": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_gray.png"
+    },
+    {
+        "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_gray.png",
+        "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_gray.png"
+    }
+]
