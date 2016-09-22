@@ -1,1 +1,1 @@
-include ':app', ':kfgd_naver'
+include ':app', ':kfgd_naver', ':library'
