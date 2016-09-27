@@ -15,6 +15,8 @@ import com.naver.naverspeech.kfgd_naver.IManagerCommand;
 import com.naver.naverspeech.kfgd_naver.NaverSpeechManager;
 import com.stacktips.view.CalendarListener;
 import com.stacktips.view.CustomCalendarView;
+import com.stacktips.view.DayDecorator;
+import com.stacktips.view.DayView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,12 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
     //Member of Data
     List<StringBuilder> memoList = new ArrayList<>();
+    Calendar currentCalendar;
 
     //Member of Widgets
     CustomCalendarView calendarView;
     TextView memoText;
     ImageButton memoBtn;
-
+    Memo selectedMemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,22 @@ public class MainActivity extends AppCompatActivity {
         //Memo
         memoText = (TextView) findViewById(R.id.memo_text);
         memoBtn = (ImageButton)findViewById(R.id.memo_btn);
-        //SetMemoFocus(false);
+        memoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        List decorators = new ArrayList();
+        decorators.add(new ColorDecorator());
+        //calendarView.setDecorators();
+    }
+
+    public void OnResetFocus(View view){
+        calendarView.refreshCalendar(currentCalendar);
+        selectedMemo = null;
+        memoText.setText("");
     }
 
     public void RunAlarmList(View view){
@@ -54,15 +72,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void OnResetFocus(View v){
-        //SetMemoFocus(false);
-        Log.i("msg", "OnResetFocus call");
-    }
-
     private void InitializeCalender() {
 
         //Initialize calendar with date
-        Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
+        currentCalendar = Calendar.getInstance(Locale.getDefault());
 
         //Show monday as first date of week
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
@@ -77,9 +90,17 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setCalendarListener(new CalendarListener() {
             @Override
             public void onDateSelected(Date date) {
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-                Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
-                //SetMemoFocus(true);
+                //SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                //Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
+                selectedMemo = VoiceAlarmApplication.getMemo(df.format(date));
+                if(null != selectedMemo)
+                    memoText.setText(selectedMemo.getDataTimeToString());
+                else {
+                    memoText.setText("일정없음");
+                    selectedMemo = new Memo(df.format(date));
+                }
+
             }
 
             @Override
@@ -88,5 +109,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public class ColorDecorator implements DayDecorator{
+
+        @Override
+        public void decorate(DayView cell) {
+
+        }
     }
 }

@@ -1,7 +1,11 @@
 package com.galaxy.voicealarm;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper{
 
@@ -28,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper{
     }
 
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE Schedule(_id INTEGER PRIMARY KEY AUTOINCREMENT, datetime DOUBLE, content TEXT)");
+        db.execSQL("CREATE TABLE Schedule(_id INTEGER PRIMARY KEY AUTOINCREMENT, datetime TEXT, content TEXT)");
         db.execSQL("CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT)");
     }
     public void onUpgrade(SQLiteDatabase db, int oloVersion, int newVersion){
@@ -39,5 +43,37 @@ public class DBHelper extends SQLiteOpenHelper{
     public void query(String query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(query);
+    }
+
+    public HashMap<String, Memo> getMemoListFromDB(){
+        HashMap<String, Memo> memoList = null;
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try{
+            //String[] columnNames = {"datetime", "content"};
+            db = getReadableDatabase();
+            cursor = db.query("Schedule", null, null, null, null, null, null);
+            memoList = new HashMap<>();
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                int _ID = cursor.getInt(cursor.getColumnIndex(TableInfo.SCHEDULE._ID));
+                String DATE_TIME = cursor.getString(cursor.getColumnIndex(TableInfo.SCHEDULE.DATE_TIME));
+                String CONTENT = cursor.getString(cursor.getColumnIndex(TableInfo.SCHEDULE.CONTENT));
+                memoList.put(DATE_TIME, new Memo(_ID, DATE_TIME, CONTENT));
+                cursor.moveToNext();
+            }
+        } catch (Exception e){
+            Log.e("getMemoListFromDB", e.toString());
+        } finally{
+            close(db, cursor);
+        }
+        return memoList;
+    }
+
+    private void close(SQLiteDatabase db, Cursor cursor){
+        if(null != cursor)
+            cursor.close();
+        if(null != db)
+            db.close();
     }
 }
