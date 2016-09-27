@@ -1,4 +1,5 @@
 package com.galaxy.voicealarm;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -68,6 +69,44 @@ public class DBHelper extends SQLiteOpenHelper{
             close(db, cursor);
         }
         return memoList;
+    }
+
+    public void insertMemoinDB(Memo memo){
+        SQLiteDatabase db = null;
+        try{
+            db = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(TableInfo.SCHEDULE.DATE_TIME, memo.getDataTimeToString());
+            contentValues.put(TableInfo.SCHEDULE.CONTENT, memo.getContent());
+            db.insert(TableInfo.SCHEDULE.TABLE_NAME, null, contentValues);
+        } catch (Exception e){
+            Log.e("getMemoListFromDB", e.toString());
+        } finally{
+            close(db);
+        }
+    }
+
+    public void updateMemoinDB(Memo memo){
+        SQLiteDatabase db = null;
+        try{
+            db = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(TableInfo.SCHEDULE.CONTENT, memo.getContent());
+            String[] params = {String.valueOf(memo.getID())};
+            db.update(TableInfo.SCHEDULE.TABLE_NAME,
+                    contentValues,
+                    TableInfo.SCHEDULE._ID + "=?",
+                    params);
+        } catch (Exception e){
+            Log.e("getMemoListFromDB", e.toString());
+        } finally{
+            close(db);
+        }
+    }
+
+    private void close(SQLiteDatabase db){
+        if(null != db)
+            db.close();
     }
 
     private void close(SQLiteDatabase db, Cursor cursor){

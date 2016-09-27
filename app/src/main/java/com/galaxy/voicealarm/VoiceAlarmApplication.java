@@ -3,6 +3,7 @@ package com.galaxy.voicealarm;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,9 +19,10 @@ public class VoiceAlarmApplication  extends Application{
         super.onCreate();
         context = this;
         settingMemoList();
+        memoList.put("2016-09-29", new Memo(1, "2016-09-29", "Sample"));
     }
 
-    private void settingMemoList(){
+    public static void settingMemoList(){
         memoList = DBHelper.getInstance().getMemoListFromDB();
     }
 

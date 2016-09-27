@@ -1,11 +1,19 @@
 [
     {
+        "merged": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\button_previous_month_selector.xml",
+        "source": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable\\button_previous_month_selector.xml"
+    },
+    {
         "merged": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\button_next_month_selector.xml",
         "source": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\bundles\\debug\\res\\drawable\\button_next_month_selector.xml"
     },
     {
         "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\button_next_month_selector.xml",
         "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable\\button_next_month_selector.xml"
+    },
+    {
+        "merged": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\button_next_month_selector.xml",
+        "source": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable\\button_next_month_selector.xml"
     },
     {
         "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\button_previous_month_selector.xml",
