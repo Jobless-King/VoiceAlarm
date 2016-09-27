@@ -80,7 +80,8 @@ public class AddAlarm extends AppCompatActivity {
         int time = selectedHour*100+selectedMinute;
         String speaking = (String)automaticInput.getSelectedItem();
 
-        DBHelper dbHelper = new DBHelper(getApplicationContext(), "Alarm");
+        //DBHelper dbHelper = new DBHelper(getApplicationContext(), "Alarm");   //수정: KFGD
+        DBHelper dbHelper = DBHelper.getInstance();
         if(time == 404)
             Toast.makeText(this, "충격과 공포다 그지 깡깡이들아", Toast.LENGTH_SHORT).show();
         dbHelper.query("INSERT INTO Alarm VALUES(null, " + 1111111 + ", " + time + ", '" + speaking + "')");

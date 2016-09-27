@@ -4,9 +4,29 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper{
-    public DBHelper(Context context, String DBName){
-        super(context, DBName, null, 1);
+
+    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "VoiceAlarm_schema.db";
+    private static DBHelper dbHelper;
+
+    private DBHelper(){
+        super(VoiceAlarmApplication.getVoiceAlarmContext(), DB_NAME, null, DB_VERSION);
     }
+
+   public DBHelper(Context context, String DBName){
+        super(context, DBName, null, 1);
+   }  //수정: KFGD
+
+    private DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
+        super(context, name, factory, version);
+    }
+
+    public static DBHelper getInstance(){
+        if(null == dbHelper)
+            dbHelper = new DBHelper();
+        return dbHelper;
+    }
+
     public void onCreate(SQLiteDatabase db){
         db.execSQL("CREATE TABLE Schedule(_id INTEGER PRIMARY KEY AUTOINCREMENT, datetime DOUBLE, content TEXT)");
         db.execSQL("CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT)");

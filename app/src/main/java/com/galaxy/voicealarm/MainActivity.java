@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Member of Widgets
     CustomCalendarView calendarView;
-    EditText memoEdit;
+    TextView memoText;
     ImageButton memoBtn;
 
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         InitializeCalender();
 
         //Memo
-        memoEdit = (EditText)findViewById(R.id.memo_edit);
+        memoText = (TextView) findViewById(R.id.memo_text);
         memoBtn = (ImageButton)findViewById(R.id.memo_btn);
         //SetMemoFocus(false);
     }
@@ -57,22 +57,6 @@ public class MainActivity extends AppCompatActivity {
     public void OnResetFocus(View v){
         //SetMemoFocus(false);
         Log.i("msg", "OnResetFocus call");
-    }
-
-    private void SetMemoFocus(boolean bValue){
-/*        if(bValue){
-            memoEdit.setFocusable(true);
-            memoBtn.setVisibility(View.VISIBLE);
-            memoEdit.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        } else{
-            memoEdit.setFocusable(false);
-            memoBtn.setVisibility(View.INVISIBLE);
-            InputMethodManager immhide = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
-        }*/
     }
 
     private void InitializeCalender() {
