@@ -99,7 +99,8 @@ public class AddAlarm extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent Intent = new Intent(this, RunAlarm.class);
         PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, Intent, 0);
-        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 10000, pIntent);
+        long settingTime = System.currentTimeMillis() - (System.currentTimeMillis()%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute+60*1000;
+        alarmManager.set(AlarmManager.RTC, settingTime, pIntent);
 
         int time = selectedHour*100+selectedMinute;
         int week = 0;
