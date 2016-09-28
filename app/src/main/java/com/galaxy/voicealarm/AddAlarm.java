@@ -35,7 +35,6 @@ public class AddAlarm extends AppCompatActivity {
     private LinearLayout blink;
     private EditText speaked;
     private int selectedHour, selectedMinute;
-    private String selectedSchedule = "지정어";
     static final int TIME_DIALOG_ID=1;
 
     @Override
@@ -55,19 +54,22 @@ public class AddAlarm extends AppCompatActivity {
         blink = (LinearLayout)findViewById(R.id.Blink);
         speaked = (EditText) findViewById(R.id.Speaked);
 
-        blink.setVisibility(View.VISIBLE);
+        blink.setVisibility(View.GONE);
+
         selectedType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.Auto:
                         blink.setVisibility(View.GONE);
+                        speaked.setText("");
                         break;
                     case R.id.Hand:
                         blink.setVisibility(View.VISIBLE);
                         break;
                     case R.id.None:
                         blink.setVisibility(View.GONE);
+                        speaked.setText("");
                         break;
                 }
             }
@@ -92,13 +94,25 @@ public class AddAlarm extends AppCompatActivity {
 
     public void Add(View view){
         int time = selectedHour*100+selectedMinute;
-        String speaking = "";
-
-        //DBHelper dbHelper = new DBHelper(getApplicationContext(), "Alarm");   //수정: KFGD
+        int week = 0;
+        String speaking = speaked.getText().toString();
+        if(speaking.equals(""))
+        if(mon.isChecked())
+            week = week+1;
+        if(tue.isChecked())
+            week = week+10;
+        if(wed.isChecked())
+            week = week+100;
+        if(thu.isChecked())
+            week = week+1000;
+        if(fri.isChecked())
+            week = week+10000;
+        if(sat.isChecked())
+            week = week+100000;
+        if(sun.isChecked())
+            week = week+1000000;
         DBHelper dbHelper = DBHelper.getInstance();
-        if(time == 404)
-            Toast.makeText(this, "충격과 공포다 그지 깡깡이들아", Toast.LENGTH_SHORT).show();
-        dbHelper.query("INSERT INTO Alarm VALUES(null, " + 1111111 + ", " + time + ", '" + speaking + "')");
+        dbHelper.query("INSERT INTO Alarm VALUES(null, " + week + ", " + time + ", '" + speaking + "', 1)");
         Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(AddAlarm.this, AlarmList.class);
         startActivity(intent);

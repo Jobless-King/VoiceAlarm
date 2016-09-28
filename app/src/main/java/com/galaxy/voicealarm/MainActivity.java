@@ -123,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
 
     private void refreshMemoList(){
         memoList = DBHelper.getInstance().getMemoListFromDB();
+        if(null == memoList)
+            memoList = new HashMap<>();
     }
 
     public class ColorDecorator implements DayDecorator{

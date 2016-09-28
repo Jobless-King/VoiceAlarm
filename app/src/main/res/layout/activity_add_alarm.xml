@@ -115,10 +115,8 @@
                 android:id="@+id/Speaked"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="직접입력"
                 android:textSize ="30dp"
-                android:textColor="#ffffff"
-                android:enabled="false"></EditText>
+                android:textColor="#ffffff"/>
         </LinearLayout>
         <RadioButton
             android:id="@+id/None"
