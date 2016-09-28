@@ -22,7 +22,7 @@
         <activity android:name=".AddAlarm" />
         <activity android:name=".AlarmList" />
         <activity android:name=".ChangeAlarm" />
-        <activity android:name=".EditMemo"></activity>
+        <activity android:name=".EditMemoDialog"></activity>
     </application>
 
 </manifest>
