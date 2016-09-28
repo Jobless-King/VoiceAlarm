@@ -13,20 +13,27 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.support.v4.app.FragmentActivity;
+import android.widget.ToggleButton;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class AddAlarm extends AppCompatActivity {
 
-    private ArrayList<String> arraylist;
     private Button outputTime;
-    private Spinner automaticInput;
+    private ToggleButton mon, tue, wed, thu, fri, sat, sun;
+    private RadioGroup selectedType;
+    private LinearLayout blink;
+    private EditText speaked;
     private int selectedHour, selectedMinute;
     private String selectedSchedule = "지정어";
     static final int TIME_DIALOG_ID=1;
@@ -37,25 +44,32 @@ public class AddAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_add_alarm);
 
         outputTime = (Button)findViewById(R.id.OutputTime);
-        arraylist = new ArrayList<String>();
-        arraylist.add("어서 "+selectedSchedule+" 해라");
-        arraylist.add("두번 "+selectedSchedule+" 해라");
-        arraylist.add("그만자고 "+selectedSchedule+" 해라");
+        mon = (ToggleButton) findViewById(R.id.Mon);
+        tue = (ToggleButton) findViewById(R.id.Tue);
+        wed = (ToggleButton) findViewById(R.id.Wed);
+        thu = (ToggleButton) findViewById(R.id.Thu);
+        fri = (ToggleButton) findViewById(R.id.Fri);
+        sat = (ToggleButton) findViewById(R.id.Sat);
+        sun = (ToggleButton) findViewById(R.id.Sun);
+        selectedType = (RadioGroup)findViewById(R.id.SelectType);
+        blink = (LinearLayout)findViewById(R.id.Blink);
+        speaked = (EditText) findViewById(R.id.Speaked);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arraylist);
-        automaticInput = (Spinner)findViewById(R.id.AutomaticInput);
-        automaticInput.setPrompt("문장 선택");
-        automaticInput.setAdapter(adapter);
-        automaticInput.setOnItemSelectedListener(new  AdapterView.OnItemSelectedListener() {
+        blink.setVisibility(View.VISIBLE);
+        selectedType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Object item = arg0.getItemAtPosition(arg2);
-                if (item!=null) {
-                    Toast.makeText(AddAlarm.this, item.toString(), Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.Auto:
+                        blink.setVisibility(View.GONE);
+                        break;
+                    case R.id.Hand:
+                        blink.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.None:
+                        blink.setVisibility(View.GONE);
+                        break;
                 }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
     }
@@ -78,7 +92,7 @@ public class AddAlarm extends AppCompatActivity {
 
     public void Add(View view){
         int time = selectedHour*100+selectedMinute;
-        String speaking = (String)automaticInput.getSelectedItem();
+        String speaking = "";
 
         //DBHelper dbHelper = new DBHelper(getApplicationContext(), "Alarm");   //수정: KFGD
         DBHelper dbHelper = DBHelper.getInstance();

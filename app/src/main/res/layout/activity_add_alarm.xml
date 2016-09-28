@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.galaxy.voicealarm.AddAlarm"
     android:orientation="vertical"
+    android:background="@color/bg_color"
     android:gravity="center">
 
     <Button
@@ -16,59 +17,117 @@
         android:onClick="InputTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bg_color"
         android:text="시간을 입력하세요."
-        android:textSize="25dp"/>
-
-    <RadioGroup
-        android:id="@+id/radioGroup1"
-        android:layout_width="wrap_content"
+        android:textSize="30dp"
+        android:textColor="#ffffff"/>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:gravity="center">
+        <ToggleButton
+            android:id="@+id/Mon"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="월"
+            android:textOff="월"/>
+        <ToggleButton
+            android:id="@+id/Tue"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="화"
+            android:textOff="화"/>
+        <ToggleButton
+            android:id="@+id/Wed"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="수"
+            android:textOff="수"/>
+        <ToggleButton
+            android:id="@+id/Thu"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="목"
+            android:textOff="목"/>
+        <ToggleButton
+            android:id="@+id/Fri"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="금"
+            android:textOff="금"/>
+        <ToggleButton
+            android:id="@+id/Sat"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="토"
+            android:textOff="토"/>
+        <ToggleButton
+            android:id="@+id/Sun"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="일"
+            android:textOff="일"/>
+
+    </LinearLayout>
+    <RadioGroup
+        android:id="@+id/SelectType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RadioButton
-            android:id="@+id/radio0"
+            android:id="@+id/Auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="자동입력" />
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:text="일정 + 명언" />
 
         <RadioButton
-            android:id="@+id/radio1"
+            android:id="@+id/Hand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="직접입력" />
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:text="일정 + 지정문" />
+        <LinearLayout
+            android:id="@+id/Blink"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:background="@drawable/contents"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/Speaked"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="직접입력"
+                android:textSize ="30dp"
+                android:textColor="#ffffff"
+                android:enabled="false"></EditText>
+        </LinearLayout>
+        <RadioButton
+            android:id="@+id/None"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:text="명언" />
     </RadioGroup>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="center">
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:background="@drawable/name"
-            android:layout_gravity="center_vertical"/>
-        <Spinner
-            android:id="@+id/AutomaticInput"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </Spinner>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="center">
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:background="@drawable/cross"
-            android:layout_gravity="center_vertical" />
-        <EditText
-            android:id="@+id/Speaked"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="직접입력"
-            android:enabled="false"></EditText>
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"

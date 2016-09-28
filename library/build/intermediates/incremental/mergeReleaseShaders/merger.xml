@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="E:\Github_Project\VoiceAlarm\library\src\main\shaders"/></dataSet><dataSet config="release"><source path="E:\Github_Project\VoiceAlarm\library\src\release\shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\Users\ymc12\AndroidStudioProjects\VoiceAlarm\library\src\main\shaders"/></dataSet><dataSet config="release"><source path="C:\Users\ymc12\AndroidStudioProjects\VoiceAlarm\library\src\release\shaders"/></dataSet></merger>
