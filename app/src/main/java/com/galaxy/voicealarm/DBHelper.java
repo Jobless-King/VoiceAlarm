@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Debug;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -100,6 +101,19 @@ public class DBHelper extends SQLiteOpenHelper{
         } catch (Exception e){
             Log.e("getMemoListFromDB", e.toString());
         } finally{
+            close(db);
+        }
+    }
+
+    public void deleteMemoinDB(Memo memo){
+        SQLiteDatabase db = null;
+        try{
+            db = getWritableDatabase();
+            db.delete(TableInfo.SCHEDULE.TABLE_NAME, TableInfo.SCHEDULE._ID + "=?", new String[]{String.valueOf(memo.getID())});
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("error", "deleteMemoinDB Error");
+        }finally {
             close(db);
         }
     }

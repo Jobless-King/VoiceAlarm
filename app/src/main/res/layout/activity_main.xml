@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:gravity="center"
-    android:onClick="OnResetFocus"
     android:padding="10dp"
     tools:context="com.galaxy.voicealarm.MainActivity">
 

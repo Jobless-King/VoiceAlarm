@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IRefresh{
 
     //Member of Data
     Calendar currentCalendar;
@@ -52,9 +51,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(null != selectedMemo) {
-                    Intent intent = new Intent(MainActivity.this, EditMemo.class);
-                    intent.putExtra("Memo", selectedMemo);
-                    startActivity(intent);
+                    EditMemoDialog memo = new EditMemoDialog(MainActivity.this, selectedMemo, MainActivity.this);
+                    memo.show();
                 }
             }
         });
@@ -70,14 +68,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        Refresh();
+    }
+
+    @Override
+    public void Refresh() {
         refreshMemoList();
         selectedMemo = null;
         memoText.setText("");
-    }
-
-    public void OnResetFocus(View view){
-        /*selectedMemo = null;
-        memoText.setText("");*/
     }
 
     public void RunAlarmList(View view){
