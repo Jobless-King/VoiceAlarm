@@ -11,7 +11,7 @@
     android:onClick="OnResetFocus"
     tools:context="com.galaxy.voicealarm.MainActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -32,18 +32,26 @@
             app:selectedDayBackgroundColor="@color/blue"
             app:titleLayoutBackgroundColor="@color/white"
             app:weekLayoutBackgroundColor="@color/white" />
-    </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/main_memo"
+        android:gravity="center">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/white"
         android:gravity="center_horizontal">
-        <EditText
-            android:id="@+id/memo_edit"
-            android:layout_width="300dp"
-            android:layout_height="100dp"/>
+        <TextView
+            android:id="@+id/memo_text"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:textColor="#FFFFFF"
+            android:gravity="center_vertical"/>
         <ImageButton
             android:id="@+id/memo_btn"
             android:layout_width="50dp"
@@ -57,5 +65,5 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:onClick="RunAlarmList" />
-
+    </LinearLayout>
 </LinearLayout>

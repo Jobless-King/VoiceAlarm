@@ -26,7 +26,8 @@ public class AlarmList extends FragmentActivity {
         setContentView(R.layout.activity_alarm_list);
 
         listcore = (ListView)findViewById(R.id.ListCore);
-        dbHelper = new DBHelper(getApplicationContext(), "Alarm");
+        //dbHelper = new DBHelper(getApplicationContext(), "Alarm"); //수정:KFGD
+        dbHelper = DBHelper.getInstance();
         sql = dbHelper.getWritableDatabase();
         cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
         if(cursor.getCount() > 0){

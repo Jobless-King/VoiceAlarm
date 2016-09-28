@@ -42,7 +42,8 @@ public class ChangeAlarm extends AppCompatActivity {
 
         outputTime = (Button)findViewById(R.id.ChangeOutputTime);
         changeSpeaked = (EditText)findViewById(R.id.ChangeSpeaked);
-        dbHelper = new DBHelper(getApplicationContext(), "Alarm");
+        //dbHelper = new DBHelper(getApplicationContext(), "Alarm"); //수정: 김관용
+        dbHelper = DBHelper.getInstance();
         sql = dbHelper.getWritableDatabase();
         cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
         if(cursor.getCount() > 0){
