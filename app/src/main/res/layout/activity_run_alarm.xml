@@ -20,7 +20,7 @@
         android:text="오늘의 할 일은?"
         android:textColor="#ffffff"
         android:textSize="50dp"/>
-
+    
     <ImageButton
         android:src="@drawable/mic"
         android:background="@null"

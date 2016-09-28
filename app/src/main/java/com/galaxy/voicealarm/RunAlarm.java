@@ -16,7 +16,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     NaverSpeechManager naverSpeechManager;
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
-    private String[] voice;
+    private String[] voice, madeString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +31,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(pattern, 2);
+
+        madeString = new String[]{"하", "하", "하"};
     }
     @Override
     public void clientReady() {}
@@ -46,7 +48,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     public void recognitionError(String errorText) {}
     @Override
     public void clientInactive() {
-        
+        if(voice.equals(madeString))
+            Kill();
     }
     public void MicOn(View view){
         if (!naverSpeechManager.getRecognizeState()) {
@@ -62,7 +65,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
             naverSpeechManager.stopRecognize();
         }
-
     }
     public void Kill(){
         mediaPlayer.stop();
