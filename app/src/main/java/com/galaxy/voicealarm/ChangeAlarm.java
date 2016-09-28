@@ -12,21 +12,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
 public class ChangeAlarm extends AppCompatActivity {
     private int position;
-    private int id;
-    private ArrayList<String> arraylist;
+    private int _id;
     private Button outputTime;
-    private EditText changeSpeaked;
-    private Spinner automaticInput;
+    private ToggleButton mon, tue, wed, thu, fri, sat, sun;
+    private RadioGroup selectedType;
+    private LinearLayout blink;
+    private EditText speaked;
     private int selectedHour, selectedMinute;
-    private String selectedSchedule = "지정어";
     static final int TIME_DIALOG_ID=1;
     private DBHelper dbHelper;
     private SQLiteDatabase sql;
@@ -40,36 +43,44 @@ public class ChangeAlarm extends AppCompatActivity {
         Intent intent = getIntent();
         position = intent.getIntExtra("position",0);
 
-        outputTime = (Button)findViewById(R.id.ChangeOutputTime);
-        changeSpeaked = (EditText)findViewById(R.id.ChangeSpeaked);
-        //dbHelper = new DBHelper(getApplicationContext(), "Alarm"); //수정: 김관용
+        outputTime = (Button)findViewById(R.id.OutputTimeC);
+        mon = (ToggleButton) findViewById(R.id.MonC);
+        tue = (ToggleButton) findViewById(R.id.TueC);
+        wed = (ToggleButton) findViewById(R.id.WedC);
+        thu = (ToggleButton) findViewById(R.id.ThuC);
+        fri = (ToggleButton) findViewById(R.id.FriC);
+        sat = (ToggleButton) findViewById(R.id.SatC);
+        sun = (ToggleButton) findViewById(R.id.SunC);
+        selectedType = (RadioGroup)findViewById(R.id.SelectTypeC);
+        blink = (LinearLayout)findViewById(R.id.BlinkC);
+        speaked = (EditText) findViewById(R.id.SpeakedC);
+
         dbHelper = DBHelper.getInstance();
         sql = dbHelper.getWritableDatabase();
         cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
         if(cursor.getCount() > 0){
             startManagingCursor(cursor);
             cursor.moveToPosition(position);
-            id = cursor.getInt(cursor.getColumnIndex("_id"));
-            changeSpeaked.setText(cursor.getString(cursor.getColumnIndex("speaking")));
+            _id = cursor.getInt(cursor.getColumnIndex("_id"));
+            speaked.setText(cursor.getString(cursor.getColumnIndex("speaking")));
         }
-        arraylist = new ArrayList<String>();
-        arraylist.add("어서 "+selectedSchedule+" 해라");
-        arraylist.add("두번 "+selectedSchedule+" 해라");
-        arraylist.add("그만자고 "+selectedSchedule+" 해라");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arraylist);
-        automaticInput = (Spinner)findViewById(R.id.ChangeAutomaticInput);
-        automaticInput.setPrompt("문장 선택");
-        automaticInput.setAdapter(adapter);
-        automaticInput.setOnItemSelectedListener(new  AdapterView.OnItemSelectedListener() {
+        blink.setVisibility(View.GONE);
+        selectedType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Object item = arg0.getItemAtPosition(arg2);
-                if (item!=null) {
-                    Toast.makeText(ChangeAlarm.this, item.toString(), Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.AutoC:
+                        blink.setVisibility(View.GONE);
+                        speaked.setText("");
+                        break;
+                    case R.id.HandC:
+                        blink.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.NoneC:
+                        blink.setVisibility(View.GONE);
+                        speaked.setText("");
+                        break;
                 }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
     }
@@ -91,6 +102,28 @@ public class ChangeAlarm extends AppCompatActivity {
     }
 
     public void Change(View view) {
+        int time = selectedHour*100+selectedMinute;
+        int week = 0;
+        String speaking = speaked.getText().toString();
+        if(speaking.equals(""))
+            speaking = "일정 말하기";
+        if(mon.isChecked())
+            week = week+1;
+        if(tue.isChecked())
+            week = week+10;
+        if(wed.isChecked())
+            week = week+100;
+        if(thu.isChecked())
+            week = week+1000;
+        if(fri.isChecked())
+            week = week+10000;
+        if(sat.isChecked())
+            week = week+100000;
+        if(sun.isChecked())
+            week = week+1000000;
+        DBHelper dbHelper = DBHelper.getInstance();
+        dbHelper.query("UPDATE Alarm set week="+week+", time="+time+", speaking='"+speaking+"' where _id = "+_id);
+        Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();
@@ -101,8 +134,8 @@ public class ChangeAlarm extends AppCompatActivity {
         finish();
     }
     public void Delete(View view) {
-        dbHelper.query("DELETE FROM Alarm WHERE _id='" + id + "';");
-        Toast.makeText(this, id+" 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+        dbHelper.query("DELETE FROM Alarm WHERE _id='" + _id + "';");
+        Toast.makeText(this, " 삭제되었습니다.", Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();
