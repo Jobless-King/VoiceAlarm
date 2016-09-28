@@ -9,28 +9,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="#EE3C45"
     android:layout_gravity="center"
     tools:context="com.galaxy.voicealarm.RunAlarm">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/soundline"
-        android:gravity="center"
-        android:layout_gravity="center_vertical" />
-
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:gravity="center"
-        android:text="아직 안함"
-        android:textSize="50px"/>
+        android:text="오늘의 할 일은?"
+        android:textColor="#ffffff"
+        android:textSize="50dp"/>
 
-    <ImageView
+    <ImageButton
+        android:src="@drawable/mic"
+        android:background="@null"
+        android:scaleType="centerCrop"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="@drawable/mic"
-        android:gravity="center"
-        android:layout_gravity="center_vertical" />
+        android:onClick="MicOn" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kill"
+        android:onClick="Kill"/>
 
 </LinearLayout>

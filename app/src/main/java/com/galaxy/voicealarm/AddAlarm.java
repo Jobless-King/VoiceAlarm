@@ -1,8 +1,11 @@
 package com.galaxy.voicealarm;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -93,10 +96,16 @@ public class AddAlarm extends AppCompatActivity {
     }
 
     public void Add(View view){
+        AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent Intent = new Intent(this, RunAlarm.class);
+        PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, Intent, 0);
+        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 10000, pIntent);
+
         int time = selectedHour*100+selectedMinute;
         int week = 0;
         String speaking = speaked.getText().toString();
         if(speaking.equals(""))
+            speaking = "일정 말하기";
         if(mon.isChecked())
             week = week+1;
         if(tue.isChecked())
