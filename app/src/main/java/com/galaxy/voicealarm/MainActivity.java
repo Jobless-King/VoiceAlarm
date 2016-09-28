@@ -1,24 +1,19 @@
 package com.galaxy.voicealarm;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.naver.naverspeech.kfgd_naver.IManagerCommand;
-import com.naver.naverspeech.kfgd_naver.NaverSpeechManager;
 import com.stacktips.view.CalendarListener;
 import com.stacktips.view.CustomCalendarView;
 import com.stacktips.view.DayDecorator;
 import com.stacktips.view.DayView;
-import com.stacktips.view.utils.CalendarUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Member of Data
     Calendar currentCalendar;
+    HashMap<String, Memo> memoList;
+    List decorators;
 
     //Member of Widgets
     CustomCalendarView calendarView;
@@ -61,15 +58,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        setDecorateMemoDay();
+
+        refreshMemoList();
+        decorators = new ArrayList();
+        decorators.add(new ColorDecorator());
+        //Set Decorators
+        calendarView.setDecorators(decorators);
+        calendarView.refreshCalendar(currentCalendar);
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        refreshMemoList();
         selectedMemo = null;
         memoText.setText("");
-        setDecorateMemoDay();
     }
 
     public void OnResetFocus(View view){
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 //SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 //Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
-                selectedMemo = VoiceAlarmApplication.getMemo(df.format(date));
+                selectedMemo = memoList.get(df.format(date));
                 if (null != selectedMemo)
                     memoText.setText(selectedMemo.getContent());
                 else {
@@ -121,11 +124,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setDecorateMemoDay(){
-        List decorators = new ArrayList();
-        decorators.add(new ColorDecorator());
-        calendarView.setDecorators(decorators);
-        calendarView.refreshCalendar(currentCalendar);
+    private void refreshMemoList(){
+        memoList = DBHelper.getInstance().getMemoListFromDB();
     }
 
     public class ColorDecorator implements DayDecorator{
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         public void decorate(DayView cell) {
 
             String day = format.format(cell.getDate());
-            if(null != VoiceAlarmApplication.getMemo(day)){
+            if(null != memoList.get(day)){
                 int color = Color.parseColor("#00bfff");
                 cell.setBackgroundColor(color);
             }

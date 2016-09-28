@@ -31,12 +31,10 @@ public class EditMemo extends AppCompatActivity {
         if(-1 == memo.getID()){
             memo.setContent(content);
             DBHelper.getInstance().insertMemoinDB(memo);
-            VoiceAlarmApplication.settingMemoList();
             finish();
         }else{
             memo.setContent(content);
             DBHelper.getInstance().updateMemoinDB(memo);
-            VoiceAlarmApplication.settingMemoList();
             finish();
         }
     }
