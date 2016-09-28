@@ -76,9 +76,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OnResetFocus(View view){
-        calendarView.refreshCalendar(currentCalendar);
-        selectedMemo = null;
-        memoText.setText("");
+        /*selectedMemo = null;
+        memoText.setText("");*/
     }
 
     public void RunAlarmList(View view){
