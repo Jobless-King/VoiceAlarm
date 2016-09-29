@@ -7,6 +7,7 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.naver.naverspeech.kfgd_naver.IManagerCommand;
@@ -17,6 +18,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private String[] voice, madeString;
+    private TextView txt1, txt2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,29 +35,39 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         vibrator.vibrate(pattern, 2);
 
         madeString = new String[]{"하", "하", "하"};
+        txt1 = (TextView)findViewById(R.id.txt1);
+        txt2 = (TextView)findViewById(R.id.txt2);
     }
     @Override
-    public void clientReady() {}
+    public void clientReady() {
+        txt1.setText("연결됨");
+    }
     @Override
     public void audioRecording(short[] text) {}
     @Override
-    public void partialResult(String partialText) {}
+    public void partialResult(String partialText) {
+        txt2.setText(partialText);
+    }
     @Override
     public void finalResult(String[] finalText) {
+        txt2.setText(finalText[0]);
         voice = finalText;
     }
     @Override
-    public void recognitionError(String errorText) {}
+    public void recognitionError(String errorText) {
+        txt1.setText("에러남: " + errorText);
+    }
     @Override
     public void clientInactive() {
         if(voice.equals(madeString))
             Kill();
+        txt1.setText("연결 끝남");
     }
     public void MicOn(View view){
         if (!naverSpeechManager.getRecognizeState()) {
             // Start button is pushed when SpeechRecognizer's state is inactive.
             // Run SpeechRecongizer by calling recognize().
-
+            txt2.setText("");
             naverSpeechManager.startRecognize();
         } else {
             // This flow is occurred by pushing start button again
@@ -70,16 +82,28 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     public void Kill(View v){
         mediaPlayer.stop();
         vibrator.cancel();
+        finish();
     }
 
     public void Kill(){
         mediaPlayer.stop();
         vibrator.cancel();
+        finish();
     }
     @Override
     public void onBackPressed(){
         Toast.makeText(this, "안되 아니야 못꺼 자지마 일어나", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        naverSpeechManager.initSpeechRecognizer();
+    }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        naverSpeechManager.releaseRecognizer();
+    }
 }
