@@ -22,7 +22,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_alarm);
 
-        //naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p");
+        naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p", this);
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
         mediaPlayer.setLooping(true);
