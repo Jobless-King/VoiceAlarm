@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class EditMemoDialog extends Dialog{
@@ -39,23 +40,20 @@ public class EditMemoDialog extends Dialog{
         if(null != memo.getContent()){
             editText.setText(memo.getContent());
         }
-        ((Button)findViewById(R.id.btn_save)).setOnClickListener(new View.OnClickListener() {
+        ((ImageButton)findViewById(R.id.btn_save)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSaveMemo();
             }
         });
 
-        Button deleteBtn = (Button)findViewById(R.id.btn_delete);
+        ImageButton deleteBtn = (ImageButton) findViewById(R.id.btn_delete);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onDeleteMemo();
             }
         });
-        if(-1 == memo.getID()){
-            deleteBtn.setText("취소하기");
-        }
     }
 
     private void onSaveMemo(){
