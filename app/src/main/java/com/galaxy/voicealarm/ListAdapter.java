@@ -37,18 +37,32 @@ public class ListAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent){
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.activity_list_adapter, parent, false);
+        v.findViewById(R.id.OnOff).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addedAlarm.setText("UPDATE Alarm set alive=" + 1 + " where _id = " + _id);
+                DBHelper dbHelper = DBHelper.getInstance();
+                if(alive==1) {
+                    onoff.setImageResource(R.drawable.die);
+                    dbHelper.query("UPDATE Alarm set alive="+0+" where _id = "+_id);
+                }else {
+                    onoff.setImageResource(R.drawable.alive);
+                    dbHelper.query("UPDATE Alarm set alive=" + 1 + " where _id = " + _id);
+                }
+            }
+        });
         return v;
     }
     public void OnOff(View view) {
         addedAlarm.setText("UPDATE Alarm set alive=" + 1 + " where _id = " + _id);
         DBHelper dbHelper = DBHelper.getInstance();
-//        if(alive==1) {
-//            onoff.setImageResource(R.drawable.die);
-//            dbHelper.query("UPDATE Alarm set alive="+0+" where _id = "+_id);
-//        }else {
-//            onoff.setImageResource(R.drawable.alive);
-//            dbHelper.query("UPDATE Alarm set alive=" + 1 + " where _id = " + _id);
-//        }
+        if(alive==1) {
+            onoff.setImageResource(R.drawable.die);
+            dbHelper.query("UPDATE Alarm set alive="+0+" where _id = "+_id);
+        }else {
+            onoff.setImageResource(R.drawable.alive);
+            dbHelper.query("UPDATE Alarm set alive=" + 1 + " where _id = " + _id);
+        }
 
     }
 }
