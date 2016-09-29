@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Debug;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper{
@@ -116,6 +117,33 @@ public class DBHelper extends SQLiteOpenHelper{
         }finally {
             close(db);
         }
+    }
+
+    public ArrayList<AlarmItem> getAlarmItemListinDB(){
+        ArrayList<AlarmItem> alarmItems = new ArrayList<>();
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        /*(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, alive INTEGER)*/
+        try{
+            //String[] columnNames = {"datetime", "content"};
+            db = getReadableDatabase();
+            cursor = db.query("Alarm", null, null, null, null, null, null);
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                int _ID = cursor.getInt(cursor.getColumnIndex("_id"));
+                int WEEK = cursor.getInt(cursor.getColumnIndex("week"));
+                int TIME = cursor.getInt(cursor.getColumnIndex("time"));
+                String SPEACKING = cursor.getString(cursor.getColumnIndex("speaking"));
+                int ALIVE = cursor.getInt(cursor.getColumnIndex("alive"));
+                alarmItems.add(new AlarmItem(_ID, WEEK, TIME, SPEACKING, ALIVE));
+                cursor.moveToNext();
+            }
+        } catch (Exception e){
+            Log.e("getAlarmItemListFromDB", e.toString());
+        } finally{
+            close(db, cursor);
+        }
+        return alarmItems;
     }
 
     private void close(SQLiteDatabase db){
