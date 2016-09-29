@@ -20,6 +20,16 @@
         android:text="오늘의 할 일은?"
         android:textColor="#ffffff"
         android:textSize="50dp"/>
+    <TextView
+        android:id="@+id/txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아직 연결 안됨"/>
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아직 입력 않함"/>
 
     <ImageButton
         android:src="@drawable/mic"

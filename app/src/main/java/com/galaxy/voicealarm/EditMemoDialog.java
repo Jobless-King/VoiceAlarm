@@ -28,7 +28,6 @@ public class EditMemoDialog extends Dialog{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.memo = memo;
         this.refreshOfActivity = refreshOfActivity;
-
     }
 
 
@@ -62,6 +61,7 @@ public class EditMemoDialog extends Dialog{
             Toast.makeText(ownerActivity, "메모를 입력해주시기 바랍니다.", Toast.LENGTH_SHORT).show();
             return;
         }
+
         if(-1 == memo.getID()){
             memo.setContent(content);
             DBHelper.getInstance().insertMemoinDB(memo);
