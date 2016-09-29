@@ -28,7 +28,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+//        mediaPlayer.start();
         long[] pattern = { 0, 500, 200, 400, 100 };
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -74,7 +74,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             // when SpeechRecognizer is running.
             // Because it means that a user wants to cancel speech
             // recognition commonly, so call stop().
-
             naverSpeechManager.stopRecognize();
         }
     }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -99,8 +100,10 @@ public class AddAlarm extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent Intent = new Intent(this, RunAlarm.class);
         PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, Intent, 0);
-        long settingTime = System.currentTimeMillis() - (System.currentTimeMillis()%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute+60*1000;
-        alarmManager.set(AlarmManager.RTC, settingTime, pIntent);
+        long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
+//        alarmManager.set(AlarmManager.RTC, settingTime, pIntent);
+        alarmManager.setRepeating(AlarmManager.RTC, settingTime, 24*60*60*1000, pIntent);
+        Toast.makeText(this, String.valueOf((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)), Toast.LENGTH_SHORT).show();
 
         int time = selectedHour*100+selectedMinute;
         int week = 0;
