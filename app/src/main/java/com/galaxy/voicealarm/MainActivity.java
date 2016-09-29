@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
     TextView memoText;
     ImageButton memoBtn;
     Memo selectedMemo;
+    String[] colorOfArray = new String[]{"#7784C2", "#C784C2", "#C7EBA8", "#71EBA8", "#7130A8", "#6D8FF5"};
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
             @Override
             public void onMonthChanged(Date date) {
                 SimpleDateFormat df = new SimpleDateFormat("MM-yyyy");
-                Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -136,7 +138,11 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
 
             String day = format.format(cell.getDate());
             if(null != memoList.get(day)){
-                int color = Color.parseColor("#00bfff");
+                int color = Color.parseColor(colorOfArray[count % colorOfArray.length]);
+                cell.setBackgroundColor(color);
+                count++;
+            }else{
+                int color = Color.parseColor("#D2D4E1");
                 cell.setBackgroundColor(color);
             }
         }

@@ -21,8 +21,8 @@
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/off_white"
-            app:calendarBackgroundColor="@color/off_white"
+            android:background="#D2D4E1"
+            app:calendarBackgroundColor="@color/white"
             app:calendarTitleTextColor="@color/black"
             app:currentDayOfMonthColor="@color/blue"
             app:dayOfMonthTextColor="@color/black"
@@ -39,6 +39,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/main_memo"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:gravity="center">
 
     <LinearLayout
@@ -54,6 +56,8 @@
             android:gravity="center_vertical"/>
         <ImageButton
             android:id="@+id/memo_btn"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_edit"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
     </LinearLayout>
