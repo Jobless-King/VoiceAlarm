@@ -66,6 +66,12 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             naverSpeechManager.stopRecognize();
         }
     }
+
+    public void Kill(View v){
+        mediaPlayer.stop();
+        vibrator.cancel();
+    }
+
     public void Kill(){
         mediaPlayer.stop();
         vibrator.cancel();

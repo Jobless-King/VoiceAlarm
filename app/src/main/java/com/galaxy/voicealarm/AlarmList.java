@@ -1,6 +1,7 @@
 package com.galaxy.voicealarm;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -47,8 +48,8 @@ public class AlarmList extends FragmentActivity {
         });
     }
 
-    public void RunAddAlarm(View view){
-        Intent intent=new Intent(AlarmList.this, AddAlarm.class);
+    public void RunAddAlarm(View view) {
+        Intent intent = new Intent(AlarmList.this, AddAlarm.class);
         startActivity(intent);
         finish();
     }
