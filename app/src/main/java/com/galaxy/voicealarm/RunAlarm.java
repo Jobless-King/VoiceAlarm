@@ -175,7 +175,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             //일정이 있을때
             madeString = memo.toString().split(" ");
             command.setText("오늘 할일은?");
-            read.setText(memo.toString());
+            read.setText(memo.getContent());
         } else {
             madeString = new String[]{"일찍", "일어난", "벌래"};
             command.setText("할일은 없지만 일어나렴");

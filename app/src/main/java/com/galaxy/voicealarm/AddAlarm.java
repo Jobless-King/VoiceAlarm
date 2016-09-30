@@ -105,7 +105,7 @@ public class AddAlarm extends AppCompatActivity {
         Intent Intent = new Intent(this, RunAlarm.class);
         PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, Intent, 0);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
-        alarmManager.setRepeating(AlarmManager.RTC, settingTime, 24*60*60*1000, pIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000, pIntent);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
         String str = df.format(settingTime);
@@ -132,7 +132,6 @@ public class AddAlarm extends AppCompatActivity {
             week = week+1000000;
         DBHelper dbHelper = DBHelper.getInstance();
         dbHelper.query("INSERT INTO Alarm VALUES(null, " + week + ", " + time + ", '" + speaking + "', 1)");
-        Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(AddAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();
