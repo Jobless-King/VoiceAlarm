@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
         //Set Decorators
         calendarView.setDecorators(decorators);
         calendarView.refreshCalendar(currentCalendar);
+        resetSelectedMemo();
     }
 
     @Override
@@ -78,8 +79,7 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
     @Override
     public void Refresh() {
         refreshMemoList();
-        selectedMemo = null;
-        memoText.setText("");
+        resetSelectedMemo();
     }
 
     public void RunAlarmList(View view){
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
                 //SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 //Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
+                memoBtn.setVisibility(View.VISIBLE);
                 selectedMemo = memoList.get(df.format(date));
                 if (null != selectedMemo)
                     memoText.setText(selectedMemo.getContent());
@@ -121,8 +122,15 @@ public class MainActivity extends AppCompatActivity implements IRefresh{
             public void onMonthChanged(Date date) {
                 SimpleDateFormat df = new SimpleDateFormat("MM-yyyy");
                 //Toast.makeText(MainActivity.this, df.format(date), Toast.LENGTH_SHORT).show();
+                resetSelectedMemo();
             }
         });
+    }
+
+    private void resetSelectedMemo(){
+        selectedMemo = null;
+        memoText.setText("");
+        memoBtn.setVisibility(View.GONE);
     }
 
     private void refreshMemoList(){

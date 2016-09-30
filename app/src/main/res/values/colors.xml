@@ -18,6 +18,8 @@
     <!--<color name="colorPrimary">@color/blue</color>-->
     <!--<color name="colorPrimaryDark">@color/blue</color>-->
 
+    <color name="selected_color">#43A751</color>
+
     <color name="background">#E0E0E0</color>
     <color name="grey">#757575</color>
 </resources>

@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -53,6 +55,7 @@ public class EditMemoDialog extends Dialog{
                 onDeleteMemo();
             }
         });
+        editText.addTextChangedListener(new DialogTextWatcher());
     }
 
     private void onSaveMemo(){
@@ -83,6 +86,30 @@ public class EditMemoDialog extends Dialog{
             DBHelper.getInstance().deleteMemoinDB(memo);
             refreshOfActivity.Refresh();
             EditMemoDialog.this.dismiss();
+        }
+    }
+
+    public class DialogTextWatcher implements TextWatcher{
+
+        String previousText = "";
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            previousText = s.toString();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(4<=editText.getLineCount()){
+                editText.setText(previousText.substring(0, previousText.length()-1));
+                editText.setSelection(previousText.length());
+                Toast.makeText(ownerActivity, "최대 3줄까지 입력가능합니다!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
