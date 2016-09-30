@@ -14,12 +14,21 @@
     tools:context="com.galaxy.voicealarm.RunAlarm">
 
     <TextView
+        android:id="@+id/Command"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:gravity="center"
         android:text="오늘의 할 일은?"
         android:textColor="#ffffff"
         android:textSize="50dp"/>
+    <TextView
+        android:id="@+id/Read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="아무것도"
+        android:textColor="#ffffff"
+        android:textSize="40dp"/>
     <TextView
         android:id="@+id/txt1"
         android:layout_width="wrap_content"

@@ -2,6 +2,9 @@ package com.galaxy.voicealarm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -13,34 +16,49 @@ import android.widget.Toast;
 import com.naver.naverspeech.kfgd_naver.IManagerCommand;
 import com.naver.naverspeech.kfgd_naver.NaverSpeechManager;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     NaverSpeechManager naverSpeechManager;
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private String[] voice, madeString;
-    private TextView txt1, txt2;
+    private TextView command, read, txt1, txt2;
+    private DBHelper dbHelper;
+    private SQLiteDatabase sql;
+    private Cursor cursor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_alarm);
 
         naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p", this);
+        command = (TextView)findViewById(R.id.Command);
+        read = (TextView)findViewById(R.id.Read);
+        dbHelper = DBHelper.getInstance();
+        sql = dbHelper.getWritableDatabase();
+        cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
-        mediaPlayer.setLooping(true);
-//        mediaPlayer.start();
-        long[] pattern = { 0, 500, 200, 400, 100 };
-
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(pattern, 2);
-
-        madeString = new String[]{"하", "하", "하"};
         txt1 = (TextView)findViewById(R.id.txt1);
         txt2 = (TextView)findViewById(R.id.txt2);
+
+        cursor = CurrentAlarmExist(cursor);
+        if (cursor != null){
+            if(CurrentAlarmIsOn(cursor))
+                RunCurrentAlarm();
+            else
+                this.finish();
+        }else
+            this.finish();
     }
     @Override
     public void clientReady() {
-        txt1.setText("연결됨");
+        txt1.setText("Connected");
     }
     @Override
     public void audioRecording(short[] text) {}
@@ -55,13 +73,13 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     }
     @Override
     public void recognitionError(String errorText) {
-        txt1.setText("에러남: " + errorText);
+        txt1.setText("erro : " + errorText);
     }
     @Override
     public void clientInactive() {
         if(voice.equals(madeString))
-            Kill();
-        txt1.setText("연결 끝남");
+            Kill(null);
+        txt1.setText("Connect end");
     }
     public void MicOn(View view){
         if (!naverSpeechManager.getRecognizeState()) {
@@ -78,13 +96,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         }
     }
 
-    public void Kill(View v){
-        mediaPlayer.stop();
-        vibrator.cancel();
-        finish();
-    }
-
-    public void Kill(){
+    public void Kill(View view){
         mediaPlayer.stop();
         vibrator.cancel();
         finish();
@@ -104,5 +116,76 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     protected void onPause(){
         super.onPause();
         naverSpeechManager.releaseRecognizer();
+    }
+    private Cursor CurrentAlarmExist(Cursor cursor){
+        boolean isRun = false;
+        SimpleDateFormat df = new SimpleDateFormat("HHmm", Locale.KOREA);
+        int curTime = Integer.parseInt(df.format(new Date()));
+
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0) {
+            while(!cursor.isAfterLast()) {
+                if (curTime == cursor.getInt(cursor.getColumnIndex("time")))
+                    return cursor;
+                cursor.moveToNext();
+            }
+        }
+        return null;
+    }
+    private boolean CurrentAlarmIsOn(Cursor cursor){
+        if(1!=cursor.getInt(cursor.getColumnIndex("alive")))
+            return false;
+        int week = cursor.getInt(cursor.getColumnIndex("week"));
+        Calendar calendar = Calendar.getInstance();
+        int curWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch(curWeek){
+            case 1:
+                week = week/1000000;
+                break;
+            case 2:
+                week = week%10;
+                break;
+            case 3:
+                week = (week/10)%10;
+                break;
+            case 4:
+                week = (week/100)%10;
+                break;
+            case 5:
+                week = (week/1000)%10;
+                break;
+            case 6:
+                week = (week/10000)%10;
+                break;
+            case 7:
+                week = (week/100000)%10;
+                break;
+        }
+        if(week!=1)
+            return false;
+        return true;
+    }
+    private void RunCurrentAlarm() {
+
+        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String selected = mSimpleDateFormat.format(new Date());
+        Memo memo = dbHelper.getMemoListFromDB().get(selected);
+
+        if (memo != null) {
+            //일정이 있을때
+            madeString = memo.toString().split(" ");
+            command.setText("오늘 할일은?");
+            read.setText(memo.toString());
+        } else {
+            madeString = new String[]{"일찍", "일어난", "벌래"};
+            command.setText("할일은 없지만 일어나렴");
+            read.setText("일찍 일어난 벌래");
+        }
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
+        mediaPlayer.setLooping(true);
+        //mediaPlayer.start();
+        long[] pattern = { 0, 500, 200, 400, 100 };
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(pattern, 2);
     }
 }

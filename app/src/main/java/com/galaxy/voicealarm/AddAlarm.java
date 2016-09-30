@@ -29,7 +29,11 @@ import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddAlarm extends AppCompatActivity {
 
@@ -101,9 +105,11 @@ public class AddAlarm extends AppCompatActivity {
         Intent Intent = new Intent(this, RunAlarm.class);
         PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, Intent, 0);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
-//        alarmManager.set(AlarmManager.RTC, settingTime, pIntent);
         alarmManager.setRepeating(AlarmManager.RTC, settingTime, 24*60*60*1000, pIntent);
-        Toast.makeText(this, String.valueOf((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)), Toast.LENGTH_SHORT).show();
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        String str = df.format(settingTime);
+        Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
         int time = selectedHour*100+selectedMinute;
         int week = 0;
