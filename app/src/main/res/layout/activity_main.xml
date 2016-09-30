@@ -24,12 +24,12 @@
             android:background="#D2D4E1"
             app:calendarBackgroundColor="@color/white"
             app:calendarTitleTextColor="@color/black"
-            app:currentDayOfMonthColor="@color/blue"
+            app:currentDayOfMonthColor="@color/white"
             app:dayOfMonthTextColor="@color/black"
             app:dayOfWeekTextColor="@color/black"
             app:disabledDayBackgroundColor="@color/off_white"
             app:disabledDayTextColor="@color/grey"
-            app:selectedDayBackgroundColor="@color/blue"
+            app:selectedDayBackgroundColor="@color/selected_color"
             app:titleLayoutBackgroundColor="@color/white"
             app:weekLayoutBackgroundColor="@color/white" />
     </ScrollView>
@@ -47,7 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:minWidth="250dp">
         <TextView
             android:id="@+id/memo_text"
             android:layout_width="200dp"
