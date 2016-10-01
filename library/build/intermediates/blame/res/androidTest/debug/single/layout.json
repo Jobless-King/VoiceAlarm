@@ -1,7 +1,19 @@
 [
     {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_5.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_5.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\custom_calendar_weeks_layout.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\custom_calendar_weeks_layout.xml"
+    },
+    {
         "merged": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_5.xml",
         "source": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_5.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\custom_calendar_title_layout.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\custom_calendar_title_layout.xml"
     },
     {
         "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_4.xml",
@@ -10,6 +22,14 @@
     {
         "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_1.xml",
         "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_1.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_2.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_2.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\custom_calendar_layout_new.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\custom_calendar_layout_new.xml"
     },
     {
         "merged": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_3.xml",
@@ -26,6 +46,18 @@
     {
         "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_6.xml",
         "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_6.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_3.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_3.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_6.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_6.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\custom_calendar_layout.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\custom_calendar_layout.xml"
     },
     {
         "merged": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_4.xml",
@@ -78,6 +110,14 @@
     {
         "merged": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_2.xml",
         "source": "E:\\Team\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_2.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_1.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_1.xml"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\roboto_calendar_week_4.xml",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\layout\\roboto_calendar_week_4.xml"
     },
     {
         "merged": "E:\\Team\\Custom-Calendar-View-master\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\custom_calendar_weeks_layout.xml",

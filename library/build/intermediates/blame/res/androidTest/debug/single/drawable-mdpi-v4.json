@@ -8,6 +8,22 @@
         "source": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_gray_soft.png"
     },
     {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_gray_soft.png",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_gray_soft.png"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_gray.png",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_gray.png"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_blue.png",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_blue.png"
+    },
+    {
+        "merged": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_blue_soft.png",
+        "source": "C:\\Users\\ymc12\\AndroidStudioProjects\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_blue_soft.png"
+    },
+    {
         "merged": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\ic_arrow_up_blue.png",
         "source": "E:\\Github_Project\\VoiceAlarm\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\ic_arrow_up_blue.png"
     },
