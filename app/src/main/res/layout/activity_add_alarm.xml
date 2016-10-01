@@ -133,15 +133,27 @@
             android:textSize="30dp"
             android:text="명언" />
     </RadioGroup>
-    <Button
-        android:id="@+id/OutputMusic"
-        android:onClick="InputMusic"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#000435"
-        android:text="음악을 선세요."
-        android:textSize="30dp"
-        android:textColor="#ffffff"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/OutputMusic"
+            android:onClick="InputMusic"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:background="#000435"
+            android:text="음악 선택"
+            android:textSize="30dp"
+            android:textColor="#ffffff"/>
+        <Button
+            android:onClick="PlayMusic"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="들어보기"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"

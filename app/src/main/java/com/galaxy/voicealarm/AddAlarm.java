@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,9 +43,15 @@ public class AddAlarm extends AppCompatActivity {
     private RadioGroup selectedType;
     private LinearLayout blink;
     private EditText speaked;
-    private String musicpath;
+
+    //private String musicName, musicpath;
+    private AudioFile selectedAudioFile = new AudioFile("Sample", "Sample_Path");
+
     private int selectedHour, selectedMinute;
     static final int TIME_DIALOG_ID=1;
+
+    //KFGD
+    public static final int ADD_ALARM_AUDIO = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +107,51 @@ public class AddAlarm extends AppCompatActivity {
     protected Dialog onCreateDialog(int id) {
         return new TimePickerDialog(this, tpTimeSetListenet, selectedHour, selectedMinute, true);
     }
+
+    //
+    /////////////////KFGD
+    //
+
     public void InputMusic(View view){
-        musicpath="여기에 경로를 저장해줘여";
+        //musicpath="여기에 경로를 저장해줘여";
+        Intent intent = new Intent(AddAlarm.this, SelectedAudioActivity.class);
+        startActivityForResult(intent, ADD_ALARM_AUDIO);
     }
+
+    public void PlayMusic(View v){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        switch(requestCode){
+            case ADD_ALARM_AUDIO:{
+                if(RESULT_OK == resultCode){
+                    if(null == intent.getParcelableExtra("AUDIO_FILE"))
+                        return;
+                    selectedAudioFile = intent.getParcelableExtra("AUDIO_FILE");
+                    if(5 <= selectedAudioFile.getFileName().length()){
+                        ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName().substring(0, 5));
+                    }else {
+                        ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName());
+                    }
+                    Toast.makeText(AddAlarm.this, selectedAudioFile.getFileName() + "mp3파일이 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            break;
+        }
+    }
+
+
+    //
+    ///////////////////////////
+    //
+
     public void Add(View view){
 		DBHelper dbHelper = DBHelper.getInstance();
         int time = selectedHour*100+selectedMinute;
