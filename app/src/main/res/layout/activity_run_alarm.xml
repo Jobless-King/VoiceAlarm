@@ -11,8 +11,15 @@
     android:gravity="center"
     android:background="#EE3C45"
     android:layout_gravity="center"
-    tools:context="com.galaxy.voicealarm.RunAlarm">
+    tools:context="com.galaxy.voicealarm.RunAlarm"
+    android:id="@+id/RunAlarmBack">
 
+    <ImageView
+        android:id="@+id/Clear"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/clear"/>
     <TextView
         android:id="@+id/Command"
         android:layout_width="match_parent"
@@ -41,16 +48,18 @@
         android:text="아직 입력 않함"/>
 
     <ImageButton
-        android:src="@drawable/mic"
+        android:id="@+id/MicOn"
+        android:src="@drawable/click"
         android:background="@null"
         android:scaleType="centerCrop"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:onClick="MicOn" />
     <Button
+        android:id="@+id/Complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kill"
+        android:text="종료"
         android:onClick="Kill"/>
 
 </LinearLayout>

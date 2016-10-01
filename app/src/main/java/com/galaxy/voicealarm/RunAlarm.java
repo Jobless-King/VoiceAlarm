@@ -7,12 +7,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +28,7 @@ import com.naver.naverspeech.kfgd_naver.NaverSpeechManager;
 
 import org.w3c.dom.Text;
 
+import java.text.Annotation;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,7 +40,12 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private String voice, madeString;
+    private ImageView clear;
+    private Button compltet;
     private TextView command, read, txt1, txt2;
+    private ImageButton micon;
+    private LinearLayout runalarmback;
+    private Animation scale, translate;
     private DBHelper dbHelper;
     private SQLiteDatabase sql;
     private Cursor cursor;
@@ -43,6 +56,11 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         setContentView(R.layout.activity_run_alarm);
 
         naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p", this);
+        clear = (ImageView)findViewById(R.id.Clear);
+        clear.setVisibility(View.GONE);
+        compltet = (Button) findViewById(R.id.Complete);
+        compltet.setVisibility(View.GONE);
+
         command = (TextView)findViewById(R.id.Command);
         read = (TextView)findViewById(R.id.Read);
         dbHelper = DBHelper.getInstance();
@@ -66,6 +84,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     @Override
     public void clientReady() {
         txt1.setText("Connected");
+        micon.clearAnimation();
+        micon.setBackgroundResource(R.drawable.mic);
     }
     @Override
     public void audioRecording(short[] text) {}
@@ -84,19 +104,22 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     }
     @Override
     public void clientInactive() {
+        txt1.setText("Connect end");
         Check();
     }
     public void MicOn(View view){
         if (!naverSpeechManager.getRecognizeState()) {
             // Start button is pushed when SpeechRecognizer's state is inactive.
             // Run SpeechRecongizer by calling recognize().
-            txt2.setText("");
             naverSpeechManager.startRecognize();
         } else {
             // This flow is occurred by pushing start button again
             // when SpeechRecognizer is running.
             // Because it means that a user wants to cancel speech
             // recognition commonly, so call stop().
+            txt2.setText("");
+            micon.clearAnimation();
+            micon.setBackgroundResource (R.drawable.mic);
             naverSpeechManager.stopRecognize();
         }
     }
@@ -123,7 +146,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         naverSpeechManager.releaseRecognizer();
     }
     private Cursor CurrentAlarmExist(Cursor cursor){
-        boolean isRun = false;
         SimpleDateFormat df = new SimpleDateFormat("HHmm", Locale.KOREA);
         curTime = Integer.parseInt(df.format(new Date()));
 
@@ -182,7 +204,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         return true;
     }
     private void RunCurrentAlarm() {
-
         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         String selected = mSimpleDateFormat.format(new Date());
         Memo memo = dbHelper.getMemoListFromDB().get(selected);
@@ -197,6 +218,11 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             command.setText("할일은 없지만 일어나렴");
             read.setText("일찍 일어난 벌레");
         }
+
+        micon = (ImageButton)findViewById(R.id.MicOn);
+        scale = AnimationUtils.loadAnimation(this, R.anim.scale);
+        micon.startAnimation(scale);
+
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
         mediaPlayer.setLooping(true);
         //mediaPlayer.start();
@@ -205,9 +231,25 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         vibrator.vibrate(pattern, 2);
     }
     private void Check(){
-        txt1.setText("Connect end");
-        if(voice.equals(madeString)) {
-            Kill(null);
+        micon.setBackgroundResource (R.drawable.click);
+        micon.startAnimation(scale);
+        if(voice.replace(" ","").equals(madeString.replace(" ", ""))) {
+            mediaPlayer.stop();
+            vibrator.cancel();
+            micon.clearAnimation();
+            command.setVisibility(View.GONE);
+            read.setVisibility(View.GONE);
+            txt1.setVisibility(View.GONE);
+            txt2.setVisibility(View.GONE);
+            micon.setVisibility(View.GONE);
+            runalarmback = (LinearLayout)findViewById(R.id.RunAlarmBack);
+            runalarmback.setBackgroundColor(Color.parseColor("#43A751"));
+            compltet.setVisibility(View.VISIBLE);
+            clear.setVisibility(View.VISIBLE);
+            translate = AnimationUtils.loadAnimation(this, R.anim.translate);
+            clear.startAnimation(translate);
+        }else{
+
         }
     }
 }
