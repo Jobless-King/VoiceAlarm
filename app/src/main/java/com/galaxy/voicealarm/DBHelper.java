@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper{
 
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String DB_NAME = "VoiceAlarm_schema.db";
     private static DBHelper dbHelper;
 
@@ -36,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
     public void onCreate(SQLiteDatabase db){
         db.execSQL("CREATE TABLE Schedule(_id INTEGER PRIMARY KEY AUTOINCREMENT, datetime TEXT, content TEXT)");
-        db.execSQL("CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, path STRING, alive INTEGER)");
+        db.execSQL("CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, path TEXT, alive INTEGER)");
     }
     public void onUpgrade(SQLiteDatabase db, int oloVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS Schedule");

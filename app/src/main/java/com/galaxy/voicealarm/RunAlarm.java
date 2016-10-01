@@ -9,6 +9,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -223,7 +224,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         scale = AnimationUtils.loadAnimation(this, R.anim.scale);
         micon.startAnimation(scale);
         try {
-            mediaPlayer.setDataSource(path);
+            mediaPlayer = MediaPlayer.create(RunAlarm.this, Uri.parse(path));
+            //mediaPlayer.setDataSource(path);
         }catch (Exception e){
             Toast.makeText(this,path+"\n해당 파일이 업습니다, 기본 노래가 실행됩니다.", Toast.LENGTH_SHORT).show();
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
