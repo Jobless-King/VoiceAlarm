@@ -101,17 +101,7 @@ public class AddAlarm extends AppCompatActivity {
     }
 
     public void Add(View view){
-        AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        Intent Intent = new Intent(this, RunAlarm.class);
-        PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, Intent, 0);
-        long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000, pIntent);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, settingTime, pIntent);
-
-        DateFormat df = new SimpleDateFormat("HH:mm");
-        String str = df.format(settingTime);
-        Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
-
+		DBHelper dbHelper = DBHelper.getInstance();
         int time = selectedHour*100+selectedMinute;
         int week = 0;
         String speaking = speaked.getText().toString();
@@ -131,8 +121,22 @@ public class AddAlarm extends AppCompatActivity {
             week = week+100000;
         if(sun.isChecked())
             week = week+1000000;
-        DBHelper dbHelper = DBHelper.getInstance();
         dbHelper.query("INSERT INTO Alarm VALUES(null, " + week + ", " + time + ", '" + speaking + "', 1)");
+		
+		SQLiteDatabase sql = dbHelper.getWritableDatabase();
+        Cursor cursor = sql.rawQuery("SELECT _id FROM Alarm ORDER BY _id DESC;", null);
+		cursor.moveToFirst();
+
+        AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent Intent = new Intent(this, RunAlarm.class);
+        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, settingTime, sender);
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        String str = df.format(settingTime);
+        Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
+        
         Intent intent=new Intent(AddAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();

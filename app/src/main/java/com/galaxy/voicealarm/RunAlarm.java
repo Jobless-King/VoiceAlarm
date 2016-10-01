@@ -60,6 +60,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         clear.setVisibility(View.GONE);
         compltet = (Button) findViewById(R.id.Complete);
         compltet.setVisibility(View.GONE);
+		micon = (ImageButton)findViewById(R.id.MicOn);
 
         command = (TextView)findViewById(R.id.Command);
         read = (TextView)findViewById(R.id.Read);
@@ -163,12 +164,12 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         int selectedHour, selectedMinute;
         selectedHour = curTime/100;
         selectedMinute = curTime%100;
+
         AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent Intent = new Intent(this, RunAlarm.class);
-        PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, Intent, 0);
-        long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000, pIntent);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,settingTime+(24*60*60*1000), pIntent);
+        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000 + 24*60*60*1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, settingTime, sender);
     }
     private boolean CurrentAlarmIsOn(Cursor cursor){
         if(1!=cursor.getInt(cursor.getColumnIndex("alive")))
@@ -219,7 +220,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             read.setText("일찍 일어난 벌레");
         }
 
-        micon = (ImageButton)findViewById(R.id.MicOn);
         scale = AnimationUtils.loadAnimation(this, R.anim.scale);
         micon.startAnimation(scale);
 
