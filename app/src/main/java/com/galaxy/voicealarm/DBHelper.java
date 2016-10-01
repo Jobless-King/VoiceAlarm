@@ -36,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
     public void onCreate(SQLiteDatabase db){
         db.execSQL("CREATE TABLE Schedule(_id INTEGER PRIMARY KEY AUTOINCREMENT, datetime TEXT, content TEXT)");
-        db.execSQL("CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, alive INTEGER)");
+        db.execSQL("CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, path STRING, alive INTEGER)");
     }
     public void onUpgrade(SQLiteDatabase db, int oloVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS Schedule");

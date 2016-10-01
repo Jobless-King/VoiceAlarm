@@ -17,7 +17,7 @@
         android:onClick="InputTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_color"
+        android:background="#000435"
         android:textSize="30dp"
         android:textColor="#ffffff"/>
 
@@ -133,6 +133,15 @@
             android:textSize="30dp"
             android:text="명언" />
     </RadioGroup>
+    <Button
+        android:id="@+id/OutputMusicC"
+        android:onClick="InputMusicC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000435"
+        android:text="음악을 선세요."
+        android:textSize="30dp"
+        android:textColor="#ffffff"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"

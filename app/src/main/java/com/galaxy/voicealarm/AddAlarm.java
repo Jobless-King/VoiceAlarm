@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -43,8 +44,6 @@ public class AddAlarm extends AppCompatActivity {
     private RadioGroup selectedType;
     private LinearLayout blink;
     private EditText speaked;
-
-    //private String musicName, musicpath;
     private AudioFile selectedAudioFile = new AudioFile("Sample", "Sample_Path");
 
     private int selectedHour, selectedMinute;
@@ -108,12 +107,7 @@ public class AddAlarm extends AppCompatActivity {
         return new TimePickerDialog(this, tpTimeSetListenet, selectedHour, selectedMinute, true);
     }
 
-    //
-    /////////////////KFGD
-    //
-
     public void InputMusic(View view){
-        //musicpath="여기에 경로를 저장해줘여";
         Intent intent = new Intent(AddAlarm.this, SelectedAudioActivity.class);
         startActivityForResult(intent, ADD_ALARM_AUDIO);
     }
@@ -146,12 +140,6 @@ public class AddAlarm extends AppCompatActivity {
             break;
         }
     }
-
-
-    //
-    ///////////////////////////
-    //
-
     public void Add(View view){
 		DBHelper dbHelper = DBHelper.getInstance();
         int time = selectedHour*100+selectedMinute;
@@ -173,8 +161,9 @@ public class AddAlarm extends AppCompatActivity {
             week = week+100000;
         if(sun.isChecked())
             week = week+1000000;
-        dbHelper.query("INSERT INTO Alarm VALUES(null, " + week + ", " + time + ", '" + speaking + "', 1)");
-		
+        String musicpath = selectedAudioFile.getFilePath();
+        dbHelper.query("INSERT INTO Alarm VALUES(null, " + week + ", " + time + ", '" + speaking + "', '"+musicpath+"', 1)");
+
 		SQLiteDatabase sql = dbHelper.getWritableDatabase();
         Cursor cursor = sql.rawQuery("SELECT _id FROM Alarm ORDER BY _id DESC;", null);
 		cursor.moveToFirst();
@@ -188,7 +177,7 @@ public class AddAlarm extends AppCompatActivity {
         DateFormat df = new SimpleDateFormat("HH:mm");
         String str = df.format(settingTime);
         Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
-        
+
         Intent intent=new Intent(AddAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();

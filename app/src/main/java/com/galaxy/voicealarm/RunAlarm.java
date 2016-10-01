@@ -75,7 +75,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         if (cursor != null){
             RegisterNextAlarm(cursor);
             if(CurrentAlarmIsOn(cursor))
-                RunCurrentAlarm();
+                RunCurrentAlarm(cursor.getString(cursor.getColumnIndex("path")));
             else
                 this.finish();
         }else
@@ -204,7 +204,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             return false;
         return true;
     }
-    private void RunCurrentAlarm() {
+    private void RunCurrentAlarm(String path) {
         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         String selected = mSimpleDateFormat.format(new Date());
         Memo memo = dbHelper.getMemoListFromDB().get(selected);
@@ -222,10 +222,14 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         scale = AnimationUtils.loadAnimation(this, R.anim.scale);
         micon.startAnimation(scale);
-
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
+        try {
+            mediaPlayer.setDataSource(path);
+        }catch (Exception e){
+            Toast.makeText(this,path+"\n해당 파일이 업습니다, 기본 노래가 실행됩니다.", Toast.LENGTH_SHORT).show();
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
+        }
         mediaPlayer.setLooping(true);
-        //mediaPlayer.start();
+        mediaPlayer.start();
         long[] pattern = { 0, 500, 200, 400, 100 };
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(pattern, 2);

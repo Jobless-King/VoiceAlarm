@@ -1,7 +1,10 @@
 package com.galaxy.voicealarm;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,17 +22,19 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ChangeAlarm extends AppCompatActivity {
     private int position;
     private int _id;
-    private Button outputTime;
+    private Button outputTime, outputMusic;
     private ToggleButton mon, tue, wed, thu, fri, sat, sun;
     private RadioGroup selectedType;
     private LinearLayout blink;
     private EditText speaked;
-    private int selectedHour, selectedMinute;
+    private int pasttime, selectedHour, selectedMinute;
     static final int TIME_DIALOG_ID=1;
     private DBHelper dbHelper;
     private SQLiteDatabase sql;
@@ -44,6 +49,7 @@ public class ChangeAlarm extends AppCompatActivity {
         position = intent.getIntExtra("position",0);
 
         outputTime = (Button)findViewById(R.id.OutputTimeC);
+        outputMusic = (Button)findViewById(R.id.OutputMusicC);
         mon = (ToggleButton) findViewById(R.id.MonC);
         tue = (ToggleButton) findViewById(R.id.TueC);
         wed = (ToggleButton) findViewById(R.id.WedC);
@@ -65,6 +71,10 @@ public class ChangeAlarm extends AppCompatActivity {
             cursor.moveToPosition(position);
             _id = cursor.getInt(cursor.getColumnIndex("_id"));
             speaked.setText(cursor.getString(cursor.getColumnIndex("speaking")));
+            pasttime = cursor.getInt(cursor.getColumnIndex("time"));
+            selectedHour = pasttime/100;
+            selectedMinute = pasttime%100;
+            outputTime.setText(selectedHour+ ": "+selectedMinute);
         }
         blink.setVisibility(View.GONE);
         selectedType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
@@ -125,7 +135,17 @@ public class ChangeAlarm extends AppCompatActivity {
             week = week+1000000;
         DBHelper dbHelper = DBHelper.getInstance();
         dbHelper.query("UPDATE Alarm set week="+week+", time="+time+", speaking='"+speaking+"' where _id = "+_id);
-        Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+
+        AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent Intent = new Intent(this, RunAlarm.class);
+        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, settingTime, sender);
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        String str = df.format(settingTime);
+        Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
+
         Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();
