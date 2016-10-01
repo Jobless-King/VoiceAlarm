@@ -162,7 +162,7 @@ public class AddAlarm extends AppCompatActivity {
         if(sun.isChecked())
             week = week+1000000;
         String musicpath = selectedAudioFile.getFilePath();
-        dbHelper.query("INSERT INTO Alarm VALUES(null, " + week + ", " + time + ", '" + speaking + "', '"+musicpath+"', 1)");
+        dbHelper.query("INSERT INTO Alarm VALUES (null, " + week + ", " + time + ", '" + speaking + "', '"+musicpath+"', 1);");
 
 		SQLiteDatabase sql = dbHelper.getWritableDatabase();
         Cursor cursor = sql.rawQuery("SELECT _id FROM Alarm ORDER BY _id DESC;", null);
