@@ -42,6 +42,7 @@ public class AddAlarm extends AppCompatActivity {
     private RadioGroup selectedType;
     private LinearLayout blink;
     private EditText speaked;
+    private String musicpath;
     private int selectedHour, selectedMinute;
     static final int TIME_DIALOG_ID=1;
 
@@ -99,7 +100,9 @@ public class AddAlarm extends AppCompatActivity {
     protected Dialog onCreateDialog(int id) {
         return new TimePickerDialog(this, tpTimeSetListenet, selectedHour, selectedMinute, true);
     }
-
+    public void InputMusic(View view){
+        musicpath="여기에 경로를 저장해줘여";
+    }
     public void Add(View view){
 		DBHelper dbHelper = DBHelper.getInstance();
         int time = selectedHour*100+selectedMinute;
