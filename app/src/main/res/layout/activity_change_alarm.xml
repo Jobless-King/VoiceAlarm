@@ -29,52 +29,59 @@
         <ToggleButton
             android:id="@+id/MonC"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/monon"
             android:checked="true"
-            android:textOn="월"
-            android:textOff="월"/>
+            android:textOn=" "
+            android:textOff=" "/>
         <ToggleButton
             android:id="@+id/TueC"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/tueon"
             android:checked="true"
-            android:textOn="화"
-            android:textOff="화"/>
+            android:textOn=" "
+            android:textOff=" "/>
         <ToggleButton
             android:id="@+id/WedC"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/wedon"
             android:checked="true"
-            android:textOn="수"
-            android:textOff="수"/>
+            android:textOn=""
+            android:textOff=""/>
         <ToggleButton
             android:id="@+id/ThuC"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/thuon"
             android:checked="true"
-            android:textOn="목"
-            android:textOff="목"/>
+            android:textOn=""
+            android:textOff=""/>
         <ToggleButton
             android:id="@+id/FriC"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/frion"
             android:checked="true"
-            android:textOn="금"
-            android:textOff="금"/>
+            android:textOn=""
+            android:textOff=""/>
         <ToggleButton
             android:id="@+id/SatC"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/saton"
             android:checked="true"
-            android:textOn="토"
-            android:textOff="토"/>
+            android:textOn=""
+            android:textOff=""/>
         <ToggleButton
             android:id="@+id/SunC"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/sunon"
             android:checked="true"
-            android:textOn="일"
-            android:textOff="일"/>
+            android:textOn=""
+            android:textOff=""/>
 
     </LinearLayout>
     <RadioGroup

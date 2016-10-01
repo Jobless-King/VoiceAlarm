@@ -55,6 +55,8 @@ public class ChangeAlarm extends AppCompatActivity {
         blink = (LinearLayout)findViewById(R.id.BlinkC);
         speaked = (EditText) findViewById(R.id.SpeakedC);
 
+        ToogelOnClick();
+
         dbHelper = DBHelper.getInstance();
         sql = dbHelper.getWritableDatabase();
         cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
@@ -139,5 +141,70 @@ public class ChangeAlarm extends AppCompatActivity {
         Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
         startActivity(intent);
         finish();
+    }
+    private void ToogelOnClick(){
+        mon.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(mon.isChecked())
+                    mon.setBackgroundDrawable(getResources().getDrawable(R.drawable.monon));
+                else
+                    mon.setBackgroundDrawable(getResources().getDrawable(R.drawable.monoff));
+            }
+        });
+        tue.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(tue.isChecked())
+                    tue.setBackgroundDrawable(getResources().getDrawable(R.drawable.tueon));
+                else
+                    tue.setBackgroundDrawable(getResources().getDrawable(R.drawable.tueoff));
+            }
+        });
+        wed.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(wed.isChecked())
+                    wed.setBackgroundDrawable(getResources().getDrawable(R.drawable.wedon));
+                else
+                    wed.setBackgroundDrawable(getResources().getDrawable(R.drawable.wedoff));
+            }
+        });
+        thu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(thu.isChecked())
+                    thu.setBackgroundDrawable(getResources().getDrawable(R.drawable.thuon));
+                else
+                    thu.setBackgroundDrawable(getResources().getDrawable(R.drawable.thuoff));
+            }
+        });
+        fri.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(fri.isChecked())
+                    fri.setBackgroundDrawable(getResources().getDrawable(R.drawable.frion));
+                else
+                    fri.setBackgroundDrawable(getResources().getDrawable(R.drawable.frioff));
+            }
+        });
+        sat.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(sat.isChecked())
+                    sat.setBackgroundDrawable(getResources().getDrawable(R.drawable.saton));
+                else
+                    sat.setBackgroundDrawable(getResources().getDrawable(R.drawable.satoff));
+            }
+        });
+        sun.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(sun.isChecked())
+                    sun.setBackgroundDrawable(getResources().getDrawable(R.drawable.sunon));
+                else
+                    sun.setBackgroundDrawable(getResources().getDrawable(R.drawable.sunoff));
+            }
+        });
     }
 }
