@@ -1,5 +1,8 @@
 package com.galaxy.voicealarm;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -35,6 +38,9 @@ public class AlarmList extends FragmentActivity {
     Cursor cursor;
     AlarmListAdapter listAdapter;
 
+    static  final int NAPNOTI = 1;
+    NotificationManager mNotiManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +52,7 @@ public class AlarmList extends FragmentActivity {
         listcore.setLayoutManager(new LinearLayoutManager(this));
         listcore.setAdapter(listAdapter);
 
-        sql = dbHelper.getReadableDatabase();
-        cursor = sql.rawQuery("SELECT * FROM Alarm ORDER BY time", null);
-        cursor.moveToFirst();
-        cursor = MostFastAlarmAfterNow(cursor);
-        if(cursor!=null)
-            Toast.makeText(this, cursor.getString(cursor.getColumnIndex("time")), Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this,"없", Toast.LENGTH_SHORT).show();
+        mNotiManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -61,12 +60,23 @@ public class AlarmList extends FragmentActivity {
         super.onResume();
         ArrayList<AlarmItem> temp = dbHelper.getAlarmItemListinDB();
         listAdapter.changeResources(temp);
+
+        sql = dbHelper.getReadableDatabase();
+        cursor = sql.rawQuery("SELECT * FROM Alarm ORDER BY time", null);
+        cursor.moveToFirst();
+        cursor = MostFastAlarmAfterNow(cursor);
+        if(cursor!=null){
+            Toast.makeText(this, "있다", Toast.LENGTH_SHORT).show();
+            //setNotification(cursor);
+        }else{
+            Toast.makeText(this, "없다", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void RunAddAlarm(View view) {
         Intent intent = new Intent(AlarmList.this, AddAlarm.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     public class AlarmListAdapter extends RecyclerView.Adapter<AlarmListAdapter.AlarmViewHolder>{
@@ -146,7 +156,7 @@ public class AlarmList extends FragmentActivity {
                     Intent intent = new Intent(AlarmList.this, ChangeAlarm.class);
                     intent.putExtra("position", pos);
                     startActivity(intent);
-                    finish();
+                    //finish();
                 }
             });
         }
@@ -217,5 +227,54 @@ public class AlarmList extends FragmentActivity {
         if(week!=1)
             return false;
         return true;
+    }
+
+    private void setNotification(Cursor cursor){
+
+        int weekToInt = cursor.getInt(cursor.getColumnIndex("week"));
+        int time = cursor.getInt(cursor.getColumnIndex("time"));
+        int[] flags = new int[]{0, 0, 0, 0, 0, 0, 0};
+        for(int i=0; i<=6; ++i){    //0:Monday-6:Sunday
+            int divide = (int) Math.pow(10, i);
+            if(1==(weekToInt/divide)%10){
+                flags[i]  = 1;
+            }
+        }
+
+        int valueOfTemp = flags[0];
+        for(int i=1; i<=6; ++i){
+            int temp = flags[i];
+            flags[i] = valueOfTemp;
+            valueOfTemp = temp;
+        }
+        flags[0] = valueOfTemp;
+
+
+        Calendar calendar = Calendar.getInstance();
+        int curWeek = calendar.get(Calendar.DAY_OF_WEEK);   //1=Sunday, 2=Monday
+
+        //1, 0, 1, 0, 1, 0, 0
+        //0, 1, 0, 1, 0, 1, 0
+
+        String weekToString = "";
+
+        switch (weekToInt){
+
+        }
+
+        Intent intent = new Intent(AlarmList.this, AlarmList.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent content = PendingIntent.getActivity(
+                AlarmList.this, 0, intent, 0
+        );
+        Notification noti = new Notification.Builder(AlarmList.this)
+                .setContentTitle("알람 설정")
+                .setContentText("알람이 설정되었습니다.")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(content)
+                .setOngoing(true)
+                .getNotification();
+        mNotiManager.notify(AlarmList.NAPNOTI, noti);
+
     }
 }

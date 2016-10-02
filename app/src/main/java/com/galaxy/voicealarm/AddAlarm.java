@@ -178,13 +178,13 @@ public class AddAlarm extends AppCompatActivity {
         String str = df.format(settingTime);
         Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
-        Intent intent=new Intent(AddAlarm.this, AlarmList.class);
-        startActivity(intent);
+        /*Intent intent=new Intent(AddAlarm.this, AlarmList.class);
+        startActivity(intent);*/
         finish();
     }
     public void Cancel(View view) {
-        Intent intent=new Intent(AddAlarm.this, MainActivity.class);
-        startActivity(intent);
+        /*Intent intent=new Intent(AddAlarm.this, MainActivity.class);
+        startActivity(intent);*/
         finish();
     }
     private void ToogelOnClick(){

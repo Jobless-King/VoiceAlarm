@@ -209,13 +209,13 @@ public class ChangeAlarm extends AppCompatActivity {
         String str = df.format(settingTime);
         Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
-        Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
-        startActivity(intent);
+        /*Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
+        startActivity(intent);*/
         finish();
     }
     public void Cancel(View view) {
-        Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
-        startActivity(intent);
+        /*Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
+        startActivity(intent);*/
         finish();
     }
     public void Delete(View view) {
@@ -233,8 +233,8 @@ public class ChangeAlarm extends AppCompatActivity {
 
         dbHelper.query("DELETE FROM Alarm WHERE _id='" + _id + "';");
         Toast.makeText(this, " 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
-        startActivity(intent);
+        /*Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
+        startActivity(intent);*/
         finish();
     }
     private void ToogelOnClick(){
