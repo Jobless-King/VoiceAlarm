@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import static com.galaxy.voicealarm.AddAlarm.ADD_ALARM_AUDIO;
+
 public class ChangeAlarm extends AppCompatActivity {
     private int position;
     private int _id;
@@ -40,6 +43,8 @@ public class ChangeAlarm extends AppCompatActivity {
     private SQLiteDatabase sql;
     private Cursor cursor;
 
+    private AudioFile selectedAudioFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,7 @@ public class ChangeAlarm extends AppCompatActivity {
         position = intent.getIntExtra("position",0);
 
         outputTime = (Button)findViewById(R.id.OutputTimeC);
-        outputMusic = (Button)findViewById(R.id.OutputMusicC);
+        outputMusic = (Button)findViewById(R.id.OutputMusic);
         mon = (ToggleButton) findViewById(R.id.MonC);
         tue = (ToggleButton) findViewById(R.id.TueC);
         wed = (ToggleButton) findViewById(R.id.WedC);
@@ -72,6 +77,20 @@ public class ChangeAlarm extends AppCompatActivity {
             _id = cursor.getInt(cursor.getColumnIndex("_id"));
             speaked.setText(cursor.getString(cursor.getColumnIndex("speaking")));
             pasttime = cursor.getInt(cursor.getColumnIndex("time"));
+
+            String FilePath = cursor.getString(cursor.getColumnIndex("path"));
+            int i=FilePath.length()-3;
+            for(; i>0; --i){
+                if('/' == FilePath.charAt(i))
+                    break;
+            }
+            String FileName = FilePath.substring(i+1, FilePath.length()-3);
+            selectedAudioFile = new AudioFile(FileName, FilePath);
+
+            if(5 <= FileName.length())
+               FileName =  FileName.substring(0, 5);
+            ((Button)findViewById(R.id.OutputMusic)).setText(FileName);
+
             selectedHour = pasttime/100;
             selectedMinute = pasttime%100;
             outputTime.setText(selectedHour+ ": "+selectedMinute);
@@ -96,6 +115,41 @@ public class ChangeAlarm extends AppCompatActivity {
             }
         });
     }
+
+    public void InputMusicC(View view){
+        Intent intent = new Intent(ChangeAlarm.this, SelectedAudioActivity.class);
+        startActivityForResult(intent, ADD_ALARM_AUDIO);
+    }
+
+    public void PlayMusicC(View v){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        switch(requestCode){
+            case ADD_ALARM_AUDIO:{
+                if(RESULT_OK == resultCode){
+                    if(null == intent.getParcelableExtra("AUDIO_FILE"))
+                        return;
+                    selectedAudioFile = intent.getParcelableExtra("AUDIO_FILE");
+                    if(5 <= selectedAudioFile.getFileName().length()){
+                        ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName().substring(0, 5));
+                    }else {
+                        ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName());
+                    }
+                    Toast.makeText(ChangeAlarm.this, selectedAudioFile.getFileName() + "mp3파일이 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            break;
+        }
+    }
+
     public void InputTime(View view){
         showDialog(TIME_DIALOG_ID);
     }
@@ -134,12 +188,22 @@ public class ChangeAlarm extends AppCompatActivity {
         if(sun.isChecked())
             week = week+1000000;
         DBHelper dbHelper = DBHelper.getInstance();
-        dbHelper.query("UPDATE Alarm set week="+week+", time="+time+", speaking='"+speaking+"' where _id = "+_id);
+        dbHelper.query("UPDATE Alarm set week="+week+", time="+time+", speaking='"+speaking+"', path='"+ selectedAudioFile.getFilePath()+"' where _id = "+_id);
 
         AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent Intent = new Intent(this, RunAlarm.class);
+
+        sql = dbHelper.getWritableDatabase();
+        cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
+        if(cursor.getCount() > 0) {
+            startManagingCursor(cursor);
+            cursor.moveToPosition(position);
+        }
+
         PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
+
+        alarmManager.cancel(sender);
         alarmManager.set(AlarmManager.RTC_WAKEUP, settingTime, sender);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
