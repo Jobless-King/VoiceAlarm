@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,9 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private SQLiteDatabase sql;
     private Cursor cursor;
     private int curTime;
+
+    private PowerManager.WakeLock wl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +81,21 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         }else
             this.finish();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP
+                | PowerManager.ON_AFTER_RELEASE
+                | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
+        wl.acquire();
+
     }
+
+
+    @Override
+    public void onDestroy(){
+        wl.release();
+    }
+
     @Override
     public void clientReady() {
         txt1.setText("Connected");
