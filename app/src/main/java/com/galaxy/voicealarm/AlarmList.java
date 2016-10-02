@@ -181,26 +181,31 @@ public class AlarmList extends FragmentActivity {
         if(cursor.getCount() > 0) {
             while(!cursor.isAfterLast()) {
                 if (curtime <= cursor.getInt(cursor.getColumnIndex("time"))) {
-                    if(ThisAlarmIsOn(cursor))
+                    if(ThisAlarmIsOn(cursor, true))
                         return cursor;
                 }
                 cursor.moveToNext();
             }
             cursor.moveToFirst();
             while(!cursor.isAfterLast()&&curtime > cursor.getInt(cursor.getColumnIndex("time"))){
-                if(ThisAlarmIsOn(cursor))
+                if(ThisAlarmIsOn(cursor, false))
                     return cursor;
                 cursor.moveToNext();
             }
         }
         return null;
     }
-    private boolean ThisAlarmIsOn(Cursor cursor){
+    private boolean ThisAlarmIsOn(Cursor cursor, boolean today){
         if(1!=cursor.getInt(cursor.getColumnIndex("alive")))
             return false;
         int week = cursor.getInt(cursor.getColumnIndex("week"));
         Calendar calendar = Calendar.getInstance();
         int curWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        if(!today){
+            curWeek++;
+            if(curWeek>7)
+                curWeek=1;
+        }
         switch(curWeek){
             case 1:
                 week = week/1000000;

@@ -66,14 +66,14 @@ public class ChangeAlarm extends AppCompatActivity {
         blink = (LinearLayout)findViewById(R.id.BlinkC);
         speaked = (EditText) findViewById(R.id.SpeakedC);
 
-        ToogelOnClick();
-
         dbHelper = DBHelper.getInstance();
         sql = dbHelper.getWritableDatabase();
         cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
+
         if(cursor.getCount() > 0){
             startManagingCursor(cursor);
             cursor.moveToPosition(position);
+            ToogelOnClick(cursor.getInt(cursor.getColumnIndex("week")));
             _id = cursor.getInt(cursor.getColumnIndex("_id"));
             speaked.setText(cursor.getString(cursor.getColumnIndex("speaking")));
             pasttime = cursor.getInt(cursor.getColumnIndex("time"));
@@ -237,7 +237,56 @@ public class ChangeAlarm extends AppCompatActivity {
         startActivity(intent);*/
         finish();
     }
-    private void ToogelOnClick(){
+    private void ToogelOnClick(int week){
+        if(1==week%10) {
+            mon.setChecked(true);
+            mon.setBackgroundDrawable(getResources().getDrawable(R.drawable.monon));
+        } else {
+            mon.setChecked(false);
+            mon.setBackgroundDrawable(getResources().getDrawable(R.drawable.monoff));
+        }
+        if(1==(week/10)%10) {
+            tue.setChecked(true);
+            tue.setBackgroundDrawable(getResources().getDrawable(R.drawable.tueon));
+        }else {
+            tue.setChecked(false);
+            tue.setBackgroundDrawable(getResources().getDrawable(R.drawable.tueoff));
+        }
+        if(1==(week/100)%10) {
+            wed.setChecked(true);
+            wed.setBackgroundDrawable(getResources().getDrawable(R.drawable.wedon));
+        }else {
+            wed.setChecked(false);
+            wed.setBackgroundDrawable(getResources().getDrawable(R.drawable.wedoff));
+        }
+        if(1==(week/1000)%10) {
+            thu.setChecked(true);
+            thu.setBackgroundDrawable(getResources().getDrawable(R.drawable.thuon));
+        }else {
+            thu.setChecked(false);
+            thu.setBackgroundDrawable(getResources().getDrawable(R.drawable.thuoff));
+        }
+        if(1==(week/10000)%10) {
+            fri.setChecked(true);
+            fri.setBackgroundDrawable(getResources().getDrawable(R.drawable.frion));
+        } else {
+            fri.setChecked(false);
+            fri.setBackgroundDrawable(getResources().getDrawable(R.drawable.frioff));
+        }
+        if(1==(week/100000)%10) {
+            sat.setChecked(true);
+            sat.setBackgroundDrawable(getResources().getDrawable(R.drawable.saton));
+        }else {
+            sat.setChecked(false);
+            sat.setBackgroundDrawable(getResources().getDrawable(R.drawable.satoff));
+        }
+        if(1==week/1000000) {
+            sun.setChecked(true);
+            sun.setBackgroundDrawable(getResources().getDrawable(R.drawable.sunon));
+        }else {
+            sun.setChecked(false);
+            sun.setBackgroundDrawable(getResources().getDrawable(R.drawable.sunoff));
+        }
         mon.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
