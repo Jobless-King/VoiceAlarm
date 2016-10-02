@@ -1,6 +1,8 @@
 package com.galaxy.voicealarm;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -53,10 +56,16 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
     private PowerManager.WakeLock wl;
 
+    //KFGD
+    private int curtime;
+    NotificationManager mNotiManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_alarm);
+
+        Log.i("info", "알람 울림");
 
         naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p", this);
         click = (ImageView)findViewById(R.id.click);
@@ -74,12 +83,17 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         cursor = CurrentAlarmExist(cursor);
         if (cursor != null){
-            if(CurrentAlarmIsOn(cursor))
+            if(CurrentAlarmIsOn(cursor)) {
                 RunCurrentAlarm(cursor);
-            else
+            }
+            else {
                 this.finish();
-        }else
+                Log.i("info", "CurrentalarmIsOn failed");
+            }
+        }else {
             this.finish();
+            Log.i("info", "RunAlarm Cursor null");
+        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
@@ -88,6 +102,24 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
                 | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         wl.acquire();
 
+
+        //KFGD
+        mNotiManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        mNotiManager.cancel(AlarmList.NAPNOTI);
+        
+        sql = dbHelper.getReadableDatabase();
+        cursor = sql.rawQuery("SELECT * FROM Alarm ORDER BY time", null);
+        cursor.moveToFirst();
+        cursor = MostFastAlarmAfterNow(cursor);
+        if(cursor!=null){
+            //Toast.makeText(this, "있다", Toast.LENGTH_SHORT).show();
+            setNotification(cursor);
+        }else{
+            //Toast.makeText(this, "없다", Toast.LENGTH_SHORT).show();
+            setNotification(cursor);
+        }
+
+        //~KFGD
     }
 
     @Override
@@ -162,8 +194,10 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         cursor.moveToFirst();
         if(cursor.getCount() > 0) {
             while(!cursor.isAfterLast()) {
-                if (curTime == cursor.getInt(cursor.getColumnIndex("time")))
+                Log.i("info", "CurrentAlarmExist: " + "현재 시간: "+ curTime + ", 세팅 시간: " + cursor.getInt(cursor.getColumnIndex("time")) + "세팅 유무: " + cursor.getInt(cursor.getColumnIndex("alive")));
+                if (curTime == cursor.getInt(cursor.getColumnIndex("time"))) {
                     return cursor;
+                }
                 cursor.moveToNext();
             }
         }
@@ -225,9 +259,15 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         click.startAnimation(diagonal);
         try {
             mediaPlayer = MediaPlayer.create(RunAlarm.this, Uri.parse(cursor.getString(cursor.getColumnIndex("path"))));
+            Log.i("info", "path: " + cursor.getString(cursor.getColumnIndex("path")));
+            if(mediaPlayer == null){
+                mediaPlayer = MediaPlayer.create(RunAlarm.this, R.raw.escape);
+                Log.i("info", "SampleAlarm");
+            }
         }catch (Exception e){
             Toast.makeText(this,"해당 파일이 업습니다, 기본 노래가 실행됩니다.", Toast.LENGTH_SHORT).show();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
+            mediaPlayer = MediaPlayer.create(RunAlarm.this, R.raw.escape);
+            Log.i("info", "SampleAlarm");
         }
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
@@ -273,5 +313,113 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             read.setText(madeString);
         }
         stage++;
+    }
+
+
+    //KFGD
+
+    private Cursor MostFastAlarmAfterNow(Cursor cursor){
+        SimpleDateFormat df = new SimpleDateFormat("HHmm", Locale.KOREA);
+        curtime = Integer.parseInt(df.format(new Date()));
+
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0) {
+            while(!cursor.isAfterLast()) {
+                if (curtime <= cursor.getInt(cursor.getColumnIndex("time"))) {
+                    if(ThisAlarmIsOn(cursor, true))
+                        return cursor;
+                }
+                cursor.moveToNext();
+            }
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()&&curtime > cursor.getInt(cursor.getColumnIndex("time"))){
+                if(ThisAlarmIsOn(cursor, false))
+                    return cursor;
+                cursor.moveToNext();
+            }
+        }
+        return null;
+    }
+    private boolean ThisAlarmIsOn(Cursor cursor, boolean today){
+        if(1!=cursor.getInt(cursor.getColumnIndex("alive")))
+            return false;
+        int week = cursor.getInt(cursor.getColumnIndex("week"));
+        Calendar calendar = Calendar.getInstance();
+        int curWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        if(!today){
+            curWeek++;
+            if(curWeek>7)
+                curWeek=1;
+        }
+        switch(curWeek){
+            case 1:
+                week = week/1000000;
+                break;
+            case 2:
+                week = week%10;
+                break;
+            case 3:
+                week = (week/10)%10;
+                break;
+            case 4:
+                week = (week/100)%10;
+                break;
+            case 5:
+                week = (week/1000)%10;
+                break;
+            case 6:
+                week = (week/10000)%10;
+                break;
+            case 7:
+                week = (week/100000)%10;
+                break;
+        }
+        if(week!=1)
+            return false;
+        return true;
+    }
+
+    private void setNotification(Cursor cursor){
+
+        if(null == cursor){
+            mNotiManager.cancel(AlarmList.NAPNOTI);
+            return;
+        }
+
+        int time = cursor.getInt(cursor.getColumnIndex("time"));
+
+        int hour = time / 100;
+        int min = time - hour * 100;
+
+        String text = "";
+
+        if(12 <= hour){
+            if (0 == min) {
+                text = "PM "+String.valueOf(hour-12) + ":00";
+            } else{
+                text = "PM "+String.valueOf(hour-12) + ":"+String.valueOf(min);
+            }
+        }else {
+            if (0 == min) {
+                text = "AM " + String.valueOf(hour) + ":00";
+            } else {
+                text = "AM " + String.valueOf(hour) + ":" + String.valueOf(min);
+            }
+        }
+
+        Intent intent = new Intent(RunAlarm.this, AlarmList.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent content = PendingIntent.getActivity(
+                RunAlarm.this, AlarmList.NAPNOTI, intent, PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        Notification noti = new Notification.Builder(RunAlarm.this)
+                .setContentTitle("알람 설정")
+                .setContentText(text+"에 알람이 설정되었습니다.")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(content)
+                .setOngoing(true)
+                .getNotification();
+        mNotiManager.notify(AlarmList.NAPNOTI, noti);
     }
 }

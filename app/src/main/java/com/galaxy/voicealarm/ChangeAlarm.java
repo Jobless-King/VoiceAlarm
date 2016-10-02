@@ -199,10 +199,14 @@ public class ChangeAlarm extends AppCompatActivity {
             startManagingCursor(cursor);
             cursor.moveToPosition(position);
         }
-        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //Source
+        //PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_UPDATE_CURRENT);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
 
-        alarmManager.cancel(sender);
+        //Source
+        //alarmManager.cancel(sender);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000,sender);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
