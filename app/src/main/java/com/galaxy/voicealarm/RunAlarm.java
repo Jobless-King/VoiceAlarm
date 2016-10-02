@@ -41,12 +41,10 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private String voice, madeString;
-    private ImageView clear;
-    private Button compltet;
+    private ImageView click;
     private TextView command, read, txt1, txt2;
     private ImageButton micon;
-    private LinearLayout runalarmback;
-    private Animation scale, translate;
+    private Animation diagonal;
     private DBHelper dbHelper;
     private SQLiteDatabase sql;
     private Cursor cursor;
@@ -57,10 +55,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         setContentView(R.layout.activity_run_alarm);
 
         naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p", this);
-        clear = (ImageView)findViewById(R.id.Clear);
-        clear.setVisibility(View.GONE);
-        compltet = (Button) findViewById(R.id.Complete);
-        compltet.setVisibility(View.GONE);
+        click = (ImageView)findViewById(R.id.click);
 		micon = (ImageButton)findViewById(R.id.MicOn);
 
         command = (TextView)findViewById(R.id.Command);
@@ -86,8 +81,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     @Override
     public void clientReady() {
         txt1.setText("Connected");
-        micon.clearAnimation();
-        micon.setBackgroundResource(R.drawable.mic);
+        click.clearAnimation();
     }
     @Override
     public void audioRecording(short[] text) {}
@@ -126,11 +120,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         }
     }
 
-    public void Kill(View view){
-        mediaPlayer.stop();
-        vibrator.cancel();
-        finish();
-    }
     @Override
     public void onBackPressed(){
         Toast.makeText(this, "안되 아니야 못꺼 자지마 일어나", Toast.LENGTH_SHORT).show();
@@ -221,8 +210,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             read.setText("일찍 일어난 벌레");
         }
 
-        scale = AnimationUtils.loadAnimation(this, R.anim.scale);
-        micon.startAnimation(scale);
+        diagonal = AnimationUtils.loadAnimation(this, R.anim.diagonal);
+        click.startAnimation(diagonal);
         try {
             mediaPlayer = MediaPlayer.create(RunAlarm.this, Uri.parse(path));
             //mediaPlayer.setDataSource(path);
@@ -237,23 +226,13 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         vibrator.vibrate(pattern, 2);
     }
     private void Check(){
-        micon.setBackgroundResource (R.drawable.click);
-        micon.startAnimation(scale);
+        click.startAnimation(diagonal);
         if(voice.replace(" ","").equals(madeString.replace(" ", ""))) {
             mediaPlayer.stop();
             vibrator.cancel();
-            micon.clearAnimation();
-            command.setVisibility(View.GONE);
-            read.setVisibility(View.GONE);
-            txt1.setVisibility(View.GONE);
-            txt2.setVisibility(View.GONE);
-            micon.setVisibility(View.GONE);
-            runalarmback = (LinearLayout)findViewById(R.id.RunAlarmBack);
-            runalarmback.setBackgroundColor(Color.parseColor("#43A751"));
-            compltet.setVisibility(View.VISIBLE);
-            clear.setVisibility(View.VISIBLE);
-            translate = AnimationUtils.loadAnimation(this, R.anim.translate);
-            clear.startAnimation(translate);
+            Intent intent = new Intent(this, ClearAlarm.class);
+            startActivity(intent);
+            finish();
         }else{
 
         }
