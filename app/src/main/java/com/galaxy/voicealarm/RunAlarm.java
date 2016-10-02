@@ -69,7 +69,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         cursor = CurrentAlarmExist(cursor);
         if (cursor != null){
-            RegisterNextAlarm(cursor);
+            //RegisterNextAlarm(cursor);
             if(CurrentAlarmIsOn(cursor))
                 RunCurrentAlarm(cursor.getString(cursor.getColumnIndex("path")));
             else
@@ -82,6 +82,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     public void clientReady() {
         txt1.setText("Connected");
         click.clearAnimation();
+        click.setVisibility(View.GONE);
     }
     @Override
     public void audioRecording(short[] text) {}
@@ -226,7 +227,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         vibrator.vibrate(pattern, 2);
     }
     private void Check(){
-        click.startAnimation(diagonal);
         if(voice.replace(" ","").equals(madeString.replace(" ", ""))) {
             mediaPlayer.stop();
             vibrator.cancel();
@@ -234,7 +234,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             startActivity(intent);
             finish();
         }else{
-
+            click.setVisibility(View.VISIBLE);
+            click.startAnimation(diagonal);
         }
     }
 }

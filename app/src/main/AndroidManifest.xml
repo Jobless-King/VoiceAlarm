@@ -29,6 +29,7 @@
         <activity android:name=".AlarmList" />
         <activity android:name=".ChangeAlarm" />
         <activity android:name=".SelectedAudioActivity" />
+        <activity android:name=".ClearAlarm"></activity>
     </application>
 
 </manifest>

@@ -199,12 +199,11 @@ public class ChangeAlarm extends AppCompatActivity {
             startManagingCursor(cursor);
             cursor.moveToPosition(position);
         }
-
         PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
 
         alarmManager.cancel(sender);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, settingTime, sender);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000,sender);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
         String str = df.format(settingTime);
@@ -220,6 +219,18 @@ public class ChangeAlarm extends AppCompatActivity {
         finish();
     }
     public void Delete(View view) {
+        AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent Intent = new Intent(this, RunAlarm.class);
+        sql = dbHelper.getWritableDatabase();
+        cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
+        if(cursor.getCount() > 0) {
+            startManagingCursor(cursor);
+            cursor.moveToPosition(position);
+        }
+        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.cancel(sender);
+
+
         dbHelper.query("DELETE FROM Alarm WHERE _id='" + _id + "';");
         Toast.makeText(this, " 삭제되었습니다.", Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
