@@ -92,6 +92,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
     @Override
     public void onDestroy(){
+        super.onDestroy();
         wl.release();
     }
 
