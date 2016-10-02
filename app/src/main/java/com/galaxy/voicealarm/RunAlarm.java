@@ -233,7 +233,16 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         vibrator.vibrate(pattern, 2);
     }
     private void Check(){
-        if(voice.replace(" ","").equals(madeString.replace(" ", ""))) {
+        double score = 0;
+        String[] voicearray = voice.replace(" ", "").split("");
+        String[] madearray = madeString.replace(" ", "").split("");
+        for(int i=0; i<voicearray.length; i++){
+            for(int j=0; j<madearray.length; j++){
+                if(voicearray[i].equals(madearray[j]))
+                    score++;
+            }
+        }
+        if(score>0.6) {
             mediaPlayer.stop();
             vibrator.cancel();
             Intent intent = new Intent(this, ClearAlarm.class);
