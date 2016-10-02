@@ -17,17 +17,22 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class AlarmList extends FragmentActivity {
 
+    private int curtime;
     RecyclerView listcore;
     DBHelper dbHelper;
     SQLiteDatabase sql;
     Cursor cursor;
-
     AlarmListAdapter listAdapter;
 
     @Override
@@ -40,6 +45,15 @@ public class AlarmList extends FragmentActivity {
         listAdapter = new AlarmListAdapter(this);
         listcore.setLayoutManager(new LinearLayoutManager(this));
         listcore.setAdapter(listAdapter);
+
+        sql = dbHelper.getReadableDatabase();
+        cursor = sql.rawQuery("SELECT * FROM Alarm ORDER BY time", null);
+        cursor.moveToFirst();
+        cursor = MostFastAlarmAfterNow(cursor);
+        if(cursor!=null)
+            Toast.makeText(this, cursor.getString(cursor.getColumnIndex("time")), Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this,"없", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -148,5 +162,60 @@ public class AlarmList extends FragmentActivity {
                 textView = (TextView)itemView.findViewById(R.id.AddedAlarm);
             }
         }
+    }
+    private Cursor MostFastAlarmAfterNow(Cursor cursor){
+        SimpleDateFormat df = new SimpleDateFormat("HHmm", Locale.KOREA);
+        curtime = Integer.parseInt(df.format(new Date()));
+
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0) {
+            while(!cursor.isAfterLast()) {
+                if (curtime <= cursor.getInt(cursor.getColumnIndex("time"))) {
+                    if(ThisAlarmIsOn(cursor))
+                        return cursor;
+                }
+                cursor.moveToNext();
+            }
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()&&curtime > cursor.getInt(cursor.getColumnIndex("time"))){
+                if(ThisAlarmIsOn(cursor))
+                    return cursor;
+                cursor.moveToNext();
+            }
+        }
+        return null;
+    }
+    private boolean ThisAlarmIsOn(Cursor cursor){
+        if(1!=cursor.getInt(cursor.getColumnIndex("alive")))
+            return false;
+        int week = cursor.getInt(cursor.getColumnIndex("week"));
+        Calendar calendar = Calendar.getInstance();
+        int curWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch(curWeek){
+            case 1:
+                week = week/1000000;
+                break;
+            case 2:
+                week = week%10;
+                break;
+            case 3:
+                week = (week/10)%10;
+                break;
+            case 4:
+                week = (week/100)%10;
+                break;
+            case 5:
+                week = (week/1000)%10;
+                break;
+            case 6:
+                week = (week/10000)%10;
+                break;
+            case 7:
+                week = (week/100000)%10;
+                break;
+        }
+        if(week!=1)
+            return false;
+        return true;
     }
 }

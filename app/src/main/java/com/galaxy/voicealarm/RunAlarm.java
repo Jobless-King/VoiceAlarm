@@ -73,7 +73,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         cursor = CurrentAlarmExist(cursor);
         if (cursor != null){
-            //RegisterNextAlarm(cursor);
             if(CurrentAlarmIsOn(cursor))
                 RunCurrentAlarm(cursor.getString(cursor.getColumnIndex("path")));
             else
@@ -168,17 +167,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             }
         }
         return null;
-    }
-    private void RegisterNextAlarm(Cursor cursor){
-        int selectedHour, selectedMinute;
-        selectedHour = curTime/100;
-        selectedMinute = curTime%100;
-
-        AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        Intent Intent = new Intent(this, RunAlarm.class);
-        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000 + 24*60*60*1000;
-        alarmManager.set(AlarmManager.RTC_WAKEUP, settingTime, sender);
     }
     private boolean CurrentAlarmIsOn(Cursor cursor){
         if(1!=cursor.getInt(cursor.getColumnIndex("alive")))
