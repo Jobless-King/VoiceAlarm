@@ -146,7 +146,7 @@ public class AddAlarm extends AppCompatActivity {
         int week = 0;
         String speaking = speaked.getText().toString();
         if(speaking.equals(""))
-            speaking = "일정 말하기";
+            speaking = "";
         if(mon.isChecked())
             week = week+1;
         if(tue.isChecked())

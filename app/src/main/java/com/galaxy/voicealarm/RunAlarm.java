@@ -49,7 +49,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private DBHelper dbHelper;
     private SQLiteDatabase sql;
     private Cursor cursor;
-    private int curTime;
+    private int curTime, stage;
 
     private PowerManager.WakeLock wl;
 
@@ -70,11 +70,12 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         txt1 = (TextView)findViewById(R.id.txt1);
         txt2 = (TextView)findViewById(R.id.txt2);
+        stage = 1;
 
         cursor = CurrentAlarmExist(cursor);
         if (cursor != null){
             if(CurrentAlarmIsOn(cursor))
-                RunCurrentAlarm(cursor.getString(cursor.getColumnIndex("path")));
+                RunCurrentAlarm(cursor);
             else
                 this.finish();
         }else
@@ -89,9 +90,9 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
     }
 
-
     @Override
     public void onDestroy(){
+        super.onDestroy();
         wl.release();
     }
 
@@ -201,7 +202,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             return false;
         return true;
     }
-    private void RunCurrentAlarm(String path) {
+    private void RunCurrentAlarm(Cursor cursor) {
         SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         String selected = mSimpleDateFormat.format(new Date());
         Memo memo = dbHelper.getMemoListFromDB().get(selected);
@@ -210,20 +211,22 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             //일정이 있을때
             madeString = memo.getContent();
             command.setText("오늘 할일은?");
-            read.setText(memo.getContent());
         } else {
-            madeString = ("일찍 일어난 벌레");
-            command.setText("할일은 없지만 일어나렴");
-            read.setText("일찍 일어난 벌레");
+            madeString = cursor.getString(cursor.getColumnIndex("speaking"));
+            if(madeString.equals("")) {
+                //일정, 지정어가 없을떄 명언을 뒤진다
+                madeString = "일찍 일어난 벌레";
+            }
+            command.setText("할일은 없지만 일어나세요");
         }
+        read.setText("맞춰...");
 
         diagonal = AnimationUtils.loadAnimation(this, R.anim.diagonal);
         click.startAnimation(diagonal);
         try {
-            mediaPlayer = MediaPlayer.create(RunAlarm.this, Uri.parse(path));
-            //mediaPlayer.setDataSource(path);
+            mediaPlayer = MediaPlayer.create(RunAlarm.this, Uri.parse(cursor.getString(cursor.getColumnIndex("path"))));
         }catch (Exception e){
-            Toast.makeText(this,path+"\n해당 파일이 업습니다, 기본 노래가 실행됩니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"해당 파일이 업습니다, 기본 노래가 실행됩니다.", Toast.LENGTH_SHORT).show();
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.escape);
         }
         mediaPlayer.setLooping(true);
@@ -242,15 +245,33 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
                     score++;
             }
         }
-        if(score>0.6) {
+        score = score/madearray.length;
+        if(score>0.7) {
             mediaPlayer.stop();
             vibrator.cancel();
             Intent intent = new Intent(this, ClearAlarm.class);
             startActivity(intent);
             finish();
-        }else{
+            return;
+        }else if(stage==2){
             click.setVisibility(View.VISIBLE);
             click.startAnimation(diagonal);
+            command.setText("아닙니다, 다시 말하세요");
+            String temp="";
+            for(int i=0; i<madearray.length; i=i+2){
+                temp += madearray[i]+"__";
+            }
+            read.setText(temp);
+        }else if(stage==4){
+            click.setVisibility(View.VISIBLE);
+            click.startAnimation(diagonal);
+            command.setText("아닙니다 멍청아, 다시");
+            String temp="";
+            for(int i=0; i<madearray.length; i=i+2){
+                temp += madearray[i]+"__";
+            }
+            read.setText(madeString);
         }
+        stage++;
     }
 }
