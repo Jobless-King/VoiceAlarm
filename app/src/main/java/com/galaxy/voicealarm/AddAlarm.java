@@ -102,7 +102,7 @@ public class AddAlarm extends AppCompatActivity {
 
     public void PlayMusic(View v){
         if(0 ==selectedAudioFile.getFilePath().compareTo("Sample_Path")) {
-
+            Toast.makeText(this, "노래를 선택하세요", Toast.LENGTH_SHORT).show();
         }
         else {
             Intent intent = new Intent();

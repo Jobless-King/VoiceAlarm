@@ -263,12 +263,12 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             mediaPlayer = MediaPlayer.create(RunAlarm.this, Uri.parse(cursor.getString(cursor.getColumnIndex("path"))));
             Log.i("info", "path: " + cursor.getString(cursor.getColumnIndex("path")));
             if(mediaPlayer == null){
-                mediaPlayer = MediaPlayer.create(RunAlarm.this, R.raw.escape);
+                mediaPlayer = MediaPlayer.create(RunAlarm.this, R.raw.neversleep);
                 Log.i("info", "SampleAlarm");
             }
         }catch (Exception e){
             Toast.makeText(this,"해당 파일이 업습니다, 기본 노래가 실행됩니다.", Toast.LENGTH_SHORT).show();
-            mediaPlayer = MediaPlayer.create(RunAlarm.this, R.raw.escape);
+            mediaPlayer = MediaPlayer.create(RunAlarm.this, R.raw.neversleep);
             Log.i("info", "SampleAlarm");
         }
         mediaPlayer.setLooping(true);
