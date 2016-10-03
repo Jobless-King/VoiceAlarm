@@ -47,6 +47,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private int curTime, stage;
     private PowerManager.WakeLock wl;
     private int curtime;
+    private boolean schedule;
+    private String[] madearray;
     private String[] say;
 
     NotificationManager mNotiManager;
@@ -96,8 +98,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
                 | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         wl.acquire();
 
-
-        //KFGD
         mNotiManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         mNotiManager.cancel(AlarmList.NAPNOTI);
         
@@ -145,7 +145,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     @Override
     public void clientInactive() {
         txt1.setText("Connect end");
-        Check();
+        Check(schedule);
     }
     public void MicOn(View view){
         if (!naverSpeechManager.getRecognizeState()) {
@@ -235,18 +235,23 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         if (memo != null) {
             //일정이 있을때
+            schedule = true;
             madeString = memo.getContent();
             command.setText("오늘 할일은?");
+            read.setText("맞춰...");
         } else {
             madeString = cursor.getString(cursor.getColumnIndex("speaking"));
+            schedule = true;
+            command.setText("할일은 없지만 일어나세요");
+            read.setText("맞춰...");
             if(madeString.equals("")) {
                 //일정, 지정어가 없을떄 명언을 뒤진다
+                schedule = false;
                 madeString = say[(int)(Math.random()*say.length)];
+                read.setText(madeString);
             }
-            command.setText("할일은 없지만 일어나세요");
+            madearray = madeString.replace(" ", "").split("");
         }
-        read.setText("맞춰...");
-
         diagonal = AnimationUtils.loadAnimation(this, R.anim.diagonal);
         click.startAnimation(diagonal);
         try {
@@ -267,17 +272,44 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(pattern, 2);
     }
-    private void Check(){
+    private double GetScore(){
         double score = 0;
         String[] voicearray = voice.replace(" ", "").split("");
-        String[] madearray = madeString.replace(" ", "").split("");
         for(int i=0; i<voicearray.length; i++){
             for(int j=0; j<madearray.length; j++){
                 if(voicearray[i].equals(madearray[j]))
                     score++;
             }
         }
-        score = score/madearray.length;
+        return score/madearray.length;
+    }
+    private void Check(boolean schedule){
+        double score = GetScore();
+        if(schedule)
+            CheckSchedule(score);
+        else
+            CheckSay(score);
+    }
+
+    private void CheckSay(double score) {
+        if(score>0.7) {
+            mediaPlayer.stop();
+            vibrator.cancel();
+            Intent intent = new Intent(this, ClearAlarm.class);
+            startActivity(intent);
+            finish();
+            return;
+        }else if(stage==2){
+            command.setText("아닙니다, 다시 말하세요");
+        }else if(stage==4){
+            command.setText("아닙니다 멍청아, 다시");
+        }
+        mediaPlayer.start();
+        click.setVisibility(View.VISIBLE);
+        click.startAnimation(diagonal);
+        stage++;
+    }
+    private void CheckSchedule(double score){
         if(score>0.7) {
             mediaPlayer.stop();
             vibrator.cancel();
