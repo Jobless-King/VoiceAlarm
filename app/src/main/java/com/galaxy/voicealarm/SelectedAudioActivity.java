@@ -19,7 +19,6 @@ public class SelectedAudioActivity extends AppCompatActivity {
 
     String mCurrent;
     String mRoot;
-    TextView mCurrentTxt;
     ListView mFileList;
     ArrayAdapter<String> mAdapter;
     ArrayList<String> arFiles;
@@ -29,15 +28,13 @@ public class SelectedAudioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_audio);
 
-        mCurrentTxt = (TextView)findViewById(R.id.current);
         mFileList = (ListView)findViewById(R.id.filelist);
 
         arFiles = new ArrayList<String>();
         mRoot = Environment.getExternalStorageDirectory().getAbsolutePath();
         mCurrent = mRoot;
 
-        mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, arFiles);
+        mAdapter = new ArrayAdapter<String>(this, R.layout.activity_white_text_adapter , arFiles);
         mFileList.setAdapter(mAdapter);
         mFileList.setOnItemClickListener(mItemClickListener);
 
@@ -76,8 +73,7 @@ public class SelectedAudioActivity extends AppCompatActivity {
                     //디렉토리가 아닌 파일인 경우
                     else{
                         String fileName = arFiles.get(position);
-                        Toast.makeText(SelectedAudioActivity.this, Uri.fromFile(f).toString(),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelectedAudioActivity.this, Uri.fromFile(f).toString(), Toast.LENGTH_SHORT).show();
                         //mp3파일인 경우, 음악 실행시킴
 
                         if(fileName.contains("'")){
@@ -96,28 +92,8 @@ public class SelectedAudioActivity extends AppCompatActivity {
                 }
             };
 
-    public void mOnClick(View v){
-        switch (v.getId()){
-            case R.id.btnroot:
-                if(0 != mCurrent.compareTo(mRoot)){
-                    mCurrent = mRoot;
-                    refreshFiles();
-                }
-                break;
-            case R.id.btnup:
-                if(0 != mCurrent.compareTo(mRoot)){
-                    int end = mCurrent.lastIndexOf("/");
-                    String uppath = mCurrent.substring(0, end);
-                    mCurrent = uppath;
-                    refreshFiles();
-                }
-                break;
-        }
-    }
-
     //디렉토리에 있는 file들로 arFiles를 채우는 코드
     void refreshFiles(){
-        mCurrentTxt.setText(mCurrent);
         arFiles.clear();
         File current = new File(mCurrent);
         String[] files = current.list();

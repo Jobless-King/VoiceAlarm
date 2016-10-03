@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class AddAlarm extends AppCompatActivity {
 
-    private Button outputTime;
+    private Button outputTime, outputMusic;
     private ToggleButton mon, tue, wed, thu, fri, sat, sun;
     private RadioGroup selectedType;
     private EditText speaked;
@@ -49,6 +49,7 @@ public class AddAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_add_alarm);
 
         outputTime = (Button)findViewById(R.id.OutputTime);
+        outputMusic = (Button)findViewById(R.id.OutputMusic);
         mon = (ToggleButton) findViewById(R.id.Mon);
         tue = (ToggleButton) findViewById(R.id.Tue);
         wed = (ToggleButton) findViewById(R.id.Wed);
@@ -66,6 +67,7 @@ public class AddAlarm extends AppCompatActivity {
                 switch (checkedId){
                     case R.id.Auto:
                         speaked.setEnabled(false);
+                        speaked.setText("");
                         speaked.setBackgroundDrawable(getResources().getDrawable(R.drawable.edittextoff));
                         break;
                     case R.id.Hand:
@@ -115,12 +117,13 @@ public class AddAlarm extends AppCompatActivity {
                     if(null == intent.getParcelableExtra("AUDIO_FILE"))
                         return;
                     selectedAudioFile = intent.getParcelableExtra("AUDIO_FILE");
+                    outputMusic.setTextSize(10);
                     if(5 <= selectedAudioFile.getFileName().length()){
-                        ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName().substring(0, 5));
+                        outputMusic.setText(selectedAudioFile.getFileName().substring(0, 5));
                     }else {
-                        ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName());
+                        outputMusic.setText(selectedAudioFile.getFileName());
                     }
-                    Toast.makeText(AddAlarm.this, selectedAudioFile.getFileName() + "mp3파일이 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddAlarm.this, selectedAudioFile.getFileName() + " 파일이 선택되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
             break;

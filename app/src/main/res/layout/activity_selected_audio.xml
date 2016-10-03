@@ -4,37 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.galaxy.voicealarm.SelectedAudioActivity"
-    android:orientation="vertical">
-    <LinearLayout
+    android:orientation="vertical"
+    android:background="@color/bg_color">
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/current"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="current" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btnroot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="mOnClick"
-                android:text="Root" />
-
-            <Button
-                android:id="@+id/btnup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="mOnClick"
-                android:text="Up" />
-        </LinearLayout>
-    </LinearLayout>
+        android:text="음악을 선택하세요"
+        android:textSize="40dp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"/>
     <ListView
         android:id="@+id/filelist"
         android:layout_width="match_parent"

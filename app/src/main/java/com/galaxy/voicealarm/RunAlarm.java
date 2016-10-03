@@ -244,8 +244,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             command.setText("오늘 할일은?");
             read.setText("맞춰...");
         } else {
-            madeString = cursor.getString(cursor.getColumnIndex("speaking"));
             schedule = true;
+            madeString = cursor.getString(cursor.getColumnIndex("speaking"));
             command.setText("할일은 없지만 일어나세요");
             read.setText("맞춰...");
             if(madeString.equals("")) {
@@ -254,8 +254,9 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
                 madeString = say[(int)(Math.random()*say.length)];
                 read.setText(madeString);
             }
-            madearray = madeString.replace(" ", "").split("");
         }
+        madearray = madeString.replace(" ", "").split("");
+
         diagonal = AnimationUtils.loadAnimation(this, R.anim.diagonal);
         click.startAnimation(diagonal);
         try {
@@ -279,6 +280,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private double GetScore(){
         double score = 0;
         String[] voicearray = voice.replace(" ", "").split("");
+        if(voicearray==null)
+            return 0;
         for(int i=0; i<voicearray.length; i++){
             for(int j=0; j<madearray.length; j++){
                 if(voicearray[i].equals(madearray[j]))
@@ -287,17 +290,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         }
         return score/madearray.length;
     }
-    private void Check(boolean schedule){
-        double score = GetScore();
-        if(schedule) {
-            Log.i("info", "CheckSchedule");
-            CheckSchedule(score);
-        }else {
-            CheckSay(score);
-            Log.i("info", "CheckSay");
-        }
-    }
-
     private void CheckSay(double score) {
         if(score>0.7) {
             mediaPlayer.stop();
@@ -344,7 +336,16 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         click.startAnimation(diagonal);
         stage++;
     }
-
+    private void Check(boolean schedule){
+        double score = GetScore();
+        if(schedule) {
+            Log.i("info", "CheckSchedule");
+            CheckSchedule(score);
+        }else {
+            CheckSay(score);
+            Log.i("info", "CheckSay");
+        }
+    }
     private Cursor MostFastAlarmAfterNow(Cursor cursor){
         SimpleDateFormat df = new SimpleDateFormat("HHmm", Locale.KOREA);
         curtime = Integer.parseInt(df.format(new Date()));
