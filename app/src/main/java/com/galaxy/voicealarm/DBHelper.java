@@ -124,9 +124,7 @@ public class DBHelper extends SQLiteOpenHelper{
         ArrayList<AlarmItem> alarmItems = new ArrayList<>();
         SQLiteDatabase db = null;
         Cursor cursor = null;
-        /*(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, alive INTEGER)*/
         try{
-            //String[] columnNames = {"datetime", "content"};
             db = getReadableDatabase();
             cursor = db.query("Alarm", null, null, null, null, null, null);
             cursor.moveToFirst();
@@ -146,6 +144,27 @@ public class DBHelper extends SQLiteOpenHelper{
         }
         return alarmItems;
     }
+/*"CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, path TEXT, alive INTEGER)"*/
+
+    public void printRowInAlarmDB(){
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+
+        try{
+            db = getReadableDatabase();
+            cursor = db.query("Alarm", null, null, null, null, null, null);
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                Log.i("info", "printRowInAlarmInDB: _id: "+ cursor.getInt(0) + ", week: " + cursor.getInt(1) + ", time: " + cursor.getInt(2) + ", alive: " + cursor.getInt(5));
+                cursor.moveToNext();
+            }
+        } catch(Exception e){
+            Log.e("printRowInAlarmDB", e.toString());
+        } finally {
+            close(db, cursor);
+        }
+    }
+
 
     private void close(SQLiteDatabase db){
         if(null != db)

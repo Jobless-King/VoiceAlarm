@@ -11,22 +11,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Locale;
 
 import static com.galaxy.voicealarm.AddAlarm.ADD_ALARM_AUDIO;
 
@@ -200,27 +197,38 @@ public class ChangeAlarm extends AppCompatActivity {
             startManagingCursor(cursor);
             cursor.moveToPosition(position);
         }
-        //Source
-        //PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent check = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_NO_CREATE);
+        if(null == check){
+            Log.i("info", "Change: 이미 기존에 알람이 설정되지 않았습니다.");
+        }else{
+            Log.i("info", "Change: 기존에 알람이 설정되어 있었습니다.");
+            alarmManager.cancel(check);
+            check.cancel();
+            Log.i("info", "Change: 기존에 알람을 삭제하였습니다.");
+        }
+
+        PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
-
-        //Source
-        //alarmManager.cancel(sender);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000,sender);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
         String str = df.format(settingTime);
         Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
-        /*Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
-        startActivity(intent);*/
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss", Locale.KOREA);
+        Log.i("info", "Change: " + sdf.format(settingTime) + "로 알람시간이 설정되었습니다." + ", DB: " + time + "입니다.");
+
+        check = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_NO_CREATE);
+        if(null == check){
+            Log.i("info", "Change: 알람이 설정되지 않았습니다.");
+        }else{
+            Log.i("info", "Change: 알람이 설정되었습니다.");
+        }
+
         finish();
     }
     public void Cancel(View view) {
-        /*Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
-        startActivity(intent);*/
         finish();
     }
     public void Delete(View view) {
@@ -232,14 +240,17 @@ public class ChangeAlarm extends AppCompatActivity {
             startManagingCursor(cursor);
             cursor.moveToPosition(position);
         }
+
         PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        alarmManager.cancel(sender);
+        if(sender != null) {
+            alarmManager.cancel(sender);
+            sender.cancel();
+            Log.i("info", "Delete: 알람이 삭제되었습니다.");
+        }
 
 
         dbHelper.query("DELETE FROM Alarm WHERE _id='" + _id + "';");
         Toast.makeText(this, " 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-        /*Intent intent=new Intent(ChangeAlarm.this, AlarmList.class);
-        startActivity(intent);*/
         finish();
     }
     private void ToogelOnClick(int week){

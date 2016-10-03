@@ -11,30 +11,22 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.support.v4.app.FragmentActivity;
 import android.widget.ToggleButton;
 
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class AddAlarm extends AppCompatActivity {
@@ -162,8 +154,18 @@ public class AddAlarm extends AppCompatActivity {
         Cursor cursor = sql.rawQuery("SELECT _id FROM Alarm ORDER BY _id DESC;", null);
 		cursor.moveToFirst();
 
+
+
         AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent Intent = new Intent(this, RunAlarm.class);
+
+        PendingIntent check = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_NO_CREATE);
+        if(null == check){
+            Log.i("info", "Add: 기존에 알람이 설정되지 않았습니다.");
+        }else{
+            Log.i("info", "Add: 기존에 이미 알람이 설정되어 있었습니다.");
+        }
+
         PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000,sender);
@@ -172,13 +174,19 @@ public class AddAlarm extends AppCompatActivity {
         String str = df.format(settingTime);
         Toast.makeText(this, str+" 에 알람이 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
-        /*Intent intent=new Intent(AddAlarm.this, AlarmList.class);
-        startActivity(intent);*/
+        check = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_NO_CREATE);
+        if(null == check){
+            Log.i("info", "Add: 알람이 설정되지 않았습니다.");
+        }else{
+            Log.i("info", "Add: 알람이 설정되었습니다.");
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss", Locale.KOREA);
+        Log.i("info", "Add: " + sdf.format(settingTime) + "에 알람이 설정되었습니다." + ", DB: " + time + "입니다.");
+
         finish();
     }
     public void Cancel(View view) {
-        /*Intent intent=new Intent(AddAlarm.this, MainActivity.class);
-        startActivity(intent);*/
         finish();
     }
     private void ToogelOnClick(){

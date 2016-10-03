@@ -1,15 +1,12 @@
 package com.galaxy.voicealarm;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
@@ -21,20 +18,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.naver.naverspeech.kfgd_naver.IManagerCommand;
 import com.naver.naverspeech.kfgd_naver.NaverSpeechManager;
 
-import org.w3c.dom.Text;
-
-import java.text.Annotation;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +57,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         setContentView(R.layout.activity_run_alarm);
 
         Log.i("info", "알람 울림");
+
+        DBHelper.getInstance().printRowInAlarmDB();
 
         naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p", this);
         click = (ImageView)findViewById(R.id.click);
@@ -189,12 +182,13 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     }
     private Cursor CurrentAlarmExist(Cursor cursor){
         SimpleDateFormat df = new SimpleDateFormat("HHmm", Locale.KOREA);
-        curTime = Integer.parseInt(df.format(new Date()));
-
+        curTime = Integer.parseInt(df.format(new Date(System.currentTimeMillis())));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd:HH:mm:ss", Locale.KOREA);
+        Log.i("info", "CurrentAlarmExist: 현재시간(HHmm): " + sdf.format(new Date(System.currentTimeMillis()))+ ", curTime: " + curTime);
         cursor.moveToFirst();
         if(cursor.getCount() > 0) {
             while(!cursor.isAfterLast()) {
-                Log.i("info", "CurrentAlarmExist: " + "현재 시간: "+ curTime + ", 세팅 시간: " + cursor.getInt(cursor.getColumnIndex("time")) + "세팅 유무: " + cursor.getInt(cursor.getColumnIndex("alive")));
+                Log.i("info", "CurrentAlarmExist: " + "현재 시간: "+ sdf.format(new Date(System.currentTimeMillis())) + ", 세팅 시간: " + cursor.getInt(cursor.getColumnIndex("time")) + "세팅 유무: " + cursor.getInt(cursor.getColumnIndex("alive")));
                 if (curTime == cursor.getInt(cursor.getColumnIndex("time"))) {
                     return cursor;
                 }
