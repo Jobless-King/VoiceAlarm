@@ -20,10 +20,14 @@
         android:layout_marginTop="100dp"
         android:src="@drawable/clear"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/kill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="종료"
-        android:onClick="Kill"/>
+        android:onClick="Kill"
+        android:layout_marginTop="13dp"
+        android:src="@drawable/ok"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center" />
 </LinearLayout>

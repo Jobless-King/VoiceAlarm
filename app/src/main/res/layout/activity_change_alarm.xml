@@ -139,31 +139,32 @@
             android:layout_height="wrap_content"
             android:text="들어보기"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:weightSum="1">
-        <Button
+        android:weightSum="1"
+        android:paddingLeft="90dp"
+        android:paddingRight="90dp">
+        <ImageButton
             android:onClick="Change"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ok"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
-            android:text="변경"
-            android:textSize="30dp"/>
-        <Button
-            android:onClick="Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="취소"
-            android:textSize="30dp"/>
-        <Button
+            android:layout_alignParentLeft="true"/>
+
+        <ImageButton
             android:onClick="Delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="삭제"
-            android:textSize="30dp"/>
-    </LinearLayout>
+            android:layout_marginTop="13dp"
+            android:src="@drawable/delete"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 </LinearLayout>
