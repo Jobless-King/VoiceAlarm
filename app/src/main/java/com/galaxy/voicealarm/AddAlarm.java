@@ -159,6 +159,9 @@ public class AddAlarm extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent Intent = new Intent(this, RunAlarm.class);
 
+        //KFGD
+        Intent.putExtra("ID", cursor.getInt(0));
+
         PendingIntent check = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_NO_CREATE);
         if(null == check){
             Log.i("info", "Add: 기존에 알람이 설정되지 않았습니다.");
@@ -169,6 +172,7 @@ public class AddAlarm extends AppCompatActivity {
         PendingIntent sender = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_CANCEL_CURRENT);
         long settingTime = System.currentTimeMillis() - ((System.currentTimeMillis()+9*60*60*1000)%(24*60*60*1000)) + selectedHour*60*60*1000 + selectedMinute*60*1000;
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000,sender);
+        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, settingTime, 24*60*60*1000,sender);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
         String str = df.format(settingTime);
