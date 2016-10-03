@@ -146,6 +146,31 @@ public class DBHelper extends SQLiteOpenHelper{
     }
 /*"CREATE TABLE Alarm(_id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, time INTEGER, speaking TEXT, path TEXT, alive INTEGER)"*/
 
+    public boolean getAliveInAlarmDB(int _id){
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        boolean bValue = false;
+        try{
+            db = getReadableDatabase();
+            cursor = db.query("Alarm", null, null, null, null, null, null);
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                Log.i("info", "getAliveInAlarmDB: _id: " + cursor.getInt(0) + ", alive: " +cursor.getInt(5));
+                if(_id == cursor.getInt(0)){
+                    bValue = true;
+                    break;
+                }
+                cursor.moveToNext();
+            }
+        }catch (Exception e){
+            Log.e("getAliveInAlarmDB", e.toString());
+            bValue =false;
+        }finally {
+            close(db, cursor);
+        }
+        return bValue;
+    }
+
     public void printRowInAlarmDB(){
         SQLiteDatabase db = null;
         Cursor cursor = null;

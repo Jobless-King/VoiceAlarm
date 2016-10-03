@@ -158,6 +158,8 @@ public class AddAlarm extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent Intent = new Intent(this, RunAlarm.class);
+        Intent.putExtra("ID", cursor.getInt(0));
+
 
         PendingIntent check = PendingIntent.getActivity(this, cursor.getInt(0), Intent, PendingIntent.FLAG_NO_CREATE);
         if(null == check){

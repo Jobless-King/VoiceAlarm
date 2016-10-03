@@ -50,6 +50,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private boolean schedule;
     private String[] madearray;
     private String[] say;
+    private int id;
 
     NotificationManager mNotiManager;
 
@@ -60,6 +61,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
 
         Log.i("info", "알람 울림");
 
+        id = getIntent().getIntExtra("ID", -1);
         DBHelper.getInstance().printRowInAlarmDB();
 
         naverSpeechManager = NaverSpeechManager.CreateNaverSpeechManager(this, "54px6Qsc2zprZKsMMc4p", this);
@@ -137,6 +139,8 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     public void finalResult(String[] finalText) {
         txt2.setText(finalText[0]);
         voice = finalText[0];
+        if(null == voice)
+            voice = "";
     }
     @Override
     public void recognitionError(String errorText) {
@@ -187,7 +191,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         if(cursor.getCount() > 0) {
             while(!cursor.isAfterLast()) {
                 Log.i("info", "CurrentAlarmExist: " + "현재 시간: "+ sdf.format(new Date(System.currentTimeMillis())) + ", 세팅 시간: " + cursor.getInt(cursor.getColumnIndex("time")) + "세팅 유무: " + cursor.getInt(cursor.getColumnIndex("alive")));
-                if (curTime == cursor.getInt(cursor.getColumnIndex("time"))) {
+                if (id == cursor.getInt(0)) {
                     return cursor;
                 }
                 cursor.moveToNext();
@@ -285,10 +289,13 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     }
     private void Check(boolean schedule){
         double score = GetScore();
-        if(schedule)
+        if(schedule) {
+            Log.i("info", "CheckSchedule");
             CheckSchedule(score);
-        else
+        }else {
             CheckSay(score);
+            Log.i("info", "CheckSay");
+        }
     }
 
     private void CheckSay(double score) {
