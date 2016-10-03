@@ -122,10 +122,7 @@ public class ChangeAlarm extends AppCompatActivity {
 
     public void PlayMusicC(View v){
         if(0 ==selectedAudioFile.getFilePath().compareTo("Sample_Path")) {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
-            startActivity(intent);
+            Toast.makeText(this, "노래를 선택하세요", Toast.LENGTH_SHORT).show();
         }
         else {
             Intent intent = new Intent();
