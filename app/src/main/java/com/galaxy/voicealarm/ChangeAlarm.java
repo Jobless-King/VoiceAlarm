@@ -77,7 +77,7 @@ public class ChangeAlarm extends AppCompatActivity {
             ToogelOnClick(cursor.getInt(cursor.getColumnIndex("week")));
             _id = cursor.getInt(cursor.getColumnIndex("_id"));
             speaked.setText(cursor.getString(cursor.getColumnIndex("speaking")));
-            if(!speaked.equals("")){
+            if(!speaked.getText().toString().equals("")){
                 hand.setChecked(true);
                 speaked.setBackgroundDrawable(getResources().getDrawable(R.drawable.edittexton));
             }
@@ -173,7 +173,7 @@ public class ChangeAlarm extends AppCompatActivity {
         int week = 0;
         String speaking = speaked.getText().toString();
         if(speaking.equals(""))
-            speaking = "일정 말하기";
+            speaking = "";
         if(mon.isChecked())
             week = week+1;
         if(tue.isChecked())

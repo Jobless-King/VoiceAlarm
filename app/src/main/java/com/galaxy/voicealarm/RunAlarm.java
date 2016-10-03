@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     NaverSpeechManager naverSpeechManager;
@@ -53,11 +54,10 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
     private SQLiteDatabase sql;
     private Cursor cursor;
     private int curTime, stage;
-
     private PowerManager.WakeLock wl;
-
-    //KFGD
     private int curtime;
+    private String[] say;
+
     NotificationManager mNotiManager;
 
     @Override
@@ -80,6 +80,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         txt1 = (TextView)findViewById(R.id.txt1);
         txt2 = (TextView)findViewById(R.id.txt2);
         stage = 1;
+        say = getResources().getStringArray(R.array.FamousSaying);
 
         cursor = CurrentAlarmExist(cursor);
         if (cursor != null){
@@ -118,8 +119,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             //Toast.makeText(this, "없다", Toast.LENGTH_SHORT).show();
             setNotification(cursor);
         }
-
-        //~KFGD
     }
 
     @Override
@@ -133,6 +132,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         txt1.setText("Connected");
         click.clearAnimation();
         click.setVisibility(View.GONE);
+        mediaPlayer.pause();
     }
     @Override
     public void audioRecording(short[] text) {}
@@ -165,8 +165,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             // Because it means that a user wants to cancel speech
             // recognition commonly, so call stop().
             txt2.setText("");
-            micon.clearAnimation();
-            micon.setBackgroundResource (R.drawable.mic);
             naverSpeechManager.stopRecognize();
         }
     }
@@ -249,7 +247,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             madeString = cursor.getString(cursor.getColumnIndex("speaking"));
             if(madeString.equals("")) {
                 //일정, 지정어가 없을떄 명언을 뒤진다
-                madeString = "일찍 일어난 벌레";
+                madeString = say[(int)(Math.random()*say.length)];
             }
             command.setText("할일은 없지만 일어나세요");
         }
@@ -294,8 +292,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             finish();
             return;
         }else if(stage==2){
-            click.setVisibility(View.VISIBLE);
-            click.startAnimation(diagonal);
             command.setText("아닙니다, 다시 말하세요");
             String temp="";
             for(int i=0; i<madearray.length; i=i+2){
@@ -303,8 +299,6 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             }
             read.setText(temp);
         }else if(stage==4){
-            click.setVisibility(View.VISIBLE);
-            click.startAnimation(diagonal);
             command.setText("아닙니다 멍청아, 다시");
             String temp="";
             for(int i=0; i<madearray.length; i=i+2){
@@ -312,11 +306,11 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
             }
             read.setText(madeString);
         }
+        mediaPlayer.start();
+        click.setVisibility(View.VISIBLE);
+        click.startAnimation(diagonal);
         stage++;
     }
-
-
-    //KFGD
 
     private Cursor MostFastAlarmAfterNow(Cursor cursor){
         SimpleDateFormat df = new SimpleDateFormat("HHmm", Locale.KOREA);

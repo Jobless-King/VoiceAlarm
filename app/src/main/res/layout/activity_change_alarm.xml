@@ -17,6 +17,7 @@
         android:onClick="InputTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="#000435"
         android:textSize="30dp"
         android:textColor="#ffffff"/>
@@ -111,6 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:textSize ="15dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:background="@drawable/edittextoff"

@@ -1,3 +1,40 @@
 <resources>
     <string name="app_name">VoiceAlarm</string>
+
+    <string-array name="FamousSaying">
+        <item>나까지 나설 필요는 없다</item>
+        <item>헌신하면 헌신짝 된다</item>
+        <item>참고 참고 또 참으면 참나무가 된다</item>
+        <item>포기하면 편하다</item>
+        <item>왕관을 쓰려는 자 그 무게를 견뎌라</item>
+        <item>아니면 말고</item>
+        <item>나도 나지만 너도 너다</item>
+        <item>목숨을 버리면 무기만은 살려 주겠다</item>
+        <item>가는 말이 고우면 사람을 얕본다</item>
+        <item>잘생긴 놈은 얼굴값하고 못생긴 놈은 꼴값 한다</item>
+        <item>공부는 실수를 낳지만 찍기는 기적을 낳는다</item>
+        <item>까도 내가 깐다</item>
+        <item>난 오아시스를 원했고 넌 신기루만으로 좋았던 거지</item>
+        <item>동정할 거면 돈으로 줘요</item>
+        <item>즐길수 없으면 피하라</item>
+        <item>이것 또한 지나가리라</item>
+        <item>대문으로 가난이 찾아오면 사랑은 창문으로 도망간다</item>
+        <item>일찍 일어나는 새가 더 피곤하다</item>
+        <item>일찍 일어난 벌레는 잡아 먹힌다</item>
+        <item>먼저 가는건 순서가 없다</item>
+        <item>효도는 셀프</item>
+        <item>먹는 것이 공부라면 세상에서 공부가 가장 쉬웠어요</item>
+        <item>어려운 길은 길이 아니다</item>
+        <item>이런 인생으론 자서전도 쓸수없다</item>
+        <item>늦었다고 생각 할때가 가장 늦은 거다</item>
+        <item>내일 할 수 있는 일을 굳이 오늘 할 필요는 없다</item>
+        <item>되면 한다	</item>
+        <item>지금 쟤 걱정할때가 아니다 니가 더 걱정이다</item>
+        <item>예술은 비싸고 인생은 더럽다</item>
+        <item>고생 끝에 골병난다</item>
+        <item>원수는 회사에서 만난다</item>
+        <item>돌다리도 두들겨보면 내손만 아프다</item>
+        <item>재주가 많으면 먹고 살만한 길이 많다</item>
+        <item>티끌 모아봐야 티끌이다</item>
+    </string-array>
 </resources>
