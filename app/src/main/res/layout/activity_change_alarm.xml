@@ -144,8 +144,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:weightSum="1"
-        android:paddingLeft="90dp"
-        android:paddingRight="90dp">
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
         <ImageButton
             android:onClick="Change"
             android:layout_marginTop="13dp"
