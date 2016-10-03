@@ -42,7 +42,6 @@ public class AddAlarm extends AppCompatActivity {
     private Button outputTime;
     private ToggleButton mon, tue, wed, thu, fri, sat, sun;
     private RadioGroup selectedType;
-    private LinearLayout blink;
     private EditText speaked;
     private AudioFile selectedAudioFile = new AudioFile("Sample", "Sample_Path");
 
@@ -66,25 +65,20 @@ public class AddAlarm extends AppCompatActivity {
         sat = (ToggleButton) findViewById(R.id.Sat);
         sun = (ToggleButton) findViewById(R.id.Sun);
         selectedType = (RadioGroup)findViewById(R.id.SelectType);
-        blink = (LinearLayout)findViewById(R.id.Blink);
         speaked = (EditText) findViewById(R.id.Speaked);
 
-        blink.setVisibility(View.GONE);
         ToogelOnClick();
         selectedType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.Auto:
-                        blink.setVisibility(View.GONE);
-                        speaked.setText("");
+                        speaked.setEnabled(false);
+                        speaked.setBackgroundDrawable(getResources().getDrawable(R.drawable.edittextoff));
                         break;
                     case R.id.Hand:
-                        blink.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.None:
-                        blink.setVisibility(View.GONE);
-                        speaked.setText("");
+                        speaked.setEnabled(true);
+                        speaked.setBackgroundDrawable(getResources().getDrawable(R.drawable.edittexton));
                         break;
                 }
             }

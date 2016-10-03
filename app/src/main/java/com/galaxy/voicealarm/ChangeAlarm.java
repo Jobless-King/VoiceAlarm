@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -35,7 +36,7 @@ public class ChangeAlarm extends AppCompatActivity {
     private Button outputTime, outputMusic;
     private ToggleButton mon, tue, wed, thu, fri, sat, sun;
     private RadioGroup selectedType;
-    private LinearLayout blink;
+    private RadioButton hand;
     private EditText speaked;
     private int pasttime, selectedHour, selectedMinute;
     static final int TIME_DIALOG_ID=1;
@@ -63,7 +64,7 @@ public class ChangeAlarm extends AppCompatActivity {
         sat = (ToggleButton) findViewById(R.id.SatC);
         sun = (ToggleButton) findViewById(R.id.SunC);
         selectedType = (RadioGroup)findViewById(R.id.SelectTypeC);
-        blink = (LinearLayout)findViewById(R.id.BlinkC);
+        hand = (RadioButton)findViewById(R.id.HandC);
         speaked = (EditText) findViewById(R.id.SpeakedC);
 
         dbHelper = DBHelper.getInstance();
@@ -76,6 +77,10 @@ public class ChangeAlarm extends AppCompatActivity {
             ToogelOnClick(cursor.getInt(cursor.getColumnIndex("week")));
             _id = cursor.getInt(cursor.getColumnIndex("_id"));
             speaked.setText(cursor.getString(cursor.getColumnIndex("speaking")));
+            if(!speaked.equals("")){
+                hand.setChecked(true);
+                speaked.setBackgroundDrawable(getResources().getDrawable(R.drawable.edittexton));
+            }
             pasttime = cursor.getInt(cursor.getColumnIndex("time"));
 
             String FilePath = cursor.getString(cursor.getColumnIndex("path"));
@@ -95,21 +100,17 @@ public class ChangeAlarm extends AppCompatActivity {
             selectedMinute = pasttime%100;
             outputTime.setText(selectedHour+ ": "+selectedMinute);
         }
-        blink.setVisibility(View.GONE);
         selectedType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.AutoC:
-                        blink.setVisibility(View.GONE);
-                        speaked.setText("");
+                        speaked.setEnabled(false);
+                        speaked.setBackgroundDrawable(getResources().getDrawable(R.drawable.edittextoff));
                         break;
                     case R.id.HandC:
-                        blink.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.NoneC:
-                        blink.setVisibility(View.GONE);
-                        speaked.setText("");
+                        speaked.setEnabled(true);
+                        speaked.setBackgroundDrawable(getResources().getDrawable(R.drawable.edittexton));
                         break;
                 }
             }

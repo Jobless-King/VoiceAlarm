@@ -96,7 +96,7 @@
             android:checked="true"
             android:textColor="#ffffff"
             android:textSize="30dp"
-            android:text="일정 + 명언" />
+            android:text="가져오기" />
 
         <RadioButton
             android:id="@+id/HandC"
@@ -104,35 +104,18 @@
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:textSize="30dp"
-            android:text="일정 + 지정문" />
-        <LinearLayout
-            android:id="@+id/BlinkC"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:background="@drawable/contents"
-                android:layout_gravity="center_vertical" />
-            <EditText
-                android:id="@+id/SpeakedC"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize ="30dp"
-                android:textColor="#ffffff"/>
-        </LinearLayout>
-        <RadioButton
-            android:id="@+id/NoneC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:textSize="30dp"
-            android:text="명언" />
+            android:text="직접쓰기" />
     </RadioGroup>
+    <EditText
+        android:id="@+id/SpeakedC"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize ="15dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@drawable/edittextoff"
+        android:enabled="false"
+        android:textColor="#ffffff"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
