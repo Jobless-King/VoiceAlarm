@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".SpalshActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +32,8 @@
         <activity android:name=".ChangeAlarm" />
         <activity android:name=".SelectedAudioActivity" />
         <activity android:name=".ClearAlarm" />
-        <activity android:name=".WhiteTextAdapter"></activity>
+        <activity android:name=".WhiteTextAdapter" />
+        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>
