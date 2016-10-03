@@ -67,12 +67,12 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         command = (TextView)findViewById(R.id.Command);
         read = (TextView)findViewById(R.id.Read);
         dbHelper = DBHelper.getInstance();
-        //sql = dbHelper.getWritableDatabase();
-        //cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
+        sql = dbHelper.getWritableDatabase();
+        cursor = sql.rawQuery("SELECT * FROM Alarm;", null);
 
         txt1 = (TextView)findViewById(R.id.txt1);
         txt2 = (TextView)findViewById(R.id.txt2);
-        /*stage = 1;
+        stage = 1;
 
         cursor = CurrentAlarmExist(cursor);
         if (cursor != null){
@@ -86,14 +86,7 @@ public class RunAlarm extends AppCompatActivity implements IManagerCommand {
         }else {
             this.finish();
             Log.i("info", "RunAlarm Cursor null");
-        }*/
-
-        //KFGD
-        if(!dbHelper.getAliveInAlarmDB(getIntent().getIntExtra("ID", -1))){
-            Log.i("info", "RunAlarm Finish");
-            this.finish();
         }
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
