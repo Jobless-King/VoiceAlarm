@@ -101,10 +101,15 @@ public class AddAlarm extends AppCompatActivity {
     }
 
     public void PlayMusic(View v){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
-        startActivity(intent);
+        if(0 ==selectedAudioFile.getFilePath().compareTo("Sample_Path")) {
+
+        }
+        else {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -117,9 +122,8 @@ public class AddAlarm extends AppCompatActivity {
                     if(null == intent.getParcelableExtra("AUDIO_FILE"))
                         return;
                     selectedAudioFile = intent.getParcelableExtra("AUDIO_FILE");
-                    outputMusic.setTextSize(10);
-                    if(5 <= selectedAudioFile.getFileName().length()){
-                        outputMusic.setText(selectedAudioFile.getFileName().substring(0, 5));
+                    if(15 <= selectedAudioFile.getFileName().length()){
+                        outputMusic.setText(selectedAudioFile.getFileName().substring(0, 15) + "...");
                     }else {
                         outputMusic.setText(selectedAudioFile.getFileName());
                     }

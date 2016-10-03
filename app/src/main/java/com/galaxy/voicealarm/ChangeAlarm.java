@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -120,10 +121,18 @@ public class ChangeAlarm extends AppCompatActivity {
     }
 
     public void PlayMusicC(View v){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
-        startActivity(intent);
+        if(0 ==selectedAudioFile.getFilePath().compareTo("Sample_Path")) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.parse(selectedAudioFile.getFilePath()), "audio/*");
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -136,12 +145,12 @@ public class ChangeAlarm extends AppCompatActivity {
                     if(null == intent.getParcelableExtra("AUDIO_FILE"))
                         return;
                     selectedAudioFile = intent.getParcelableExtra("AUDIO_FILE");
-                    if(5 <= selectedAudioFile.getFileName().length()){
-                        ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName().substring(0, 5));
+                    if(15 <= selectedAudioFile.getFileName().length()){
+                        outputMusic.setText(selectedAudioFile.getFileName().substring(0, 15) + "...");
                     }else {
                         ((Button) findViewById(R.id.OutputMusic)).setText(selectedAudioFile.getFileName());
                     }
-                    Toast.makeText(ChangeAlarm.this, selectedAudioFile.getFileName() + "mp3파일이 선택되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangeAlarm.this, selectedAudioFile.getFileName() + " 파일이 선택되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
             break;

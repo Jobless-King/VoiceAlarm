@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:background="#000435"
             android:text="음악 선택"
-            android:textSize="30dp"
+            android:textSize="15dp"
             android:textColor="#ffffff"/>
         <Button
             android:onClick="PlayMusic"

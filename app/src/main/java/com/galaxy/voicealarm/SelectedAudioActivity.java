@@ -73,8 +73,6 @@ public class SelectedAudioActivity extends AppCompatActivity {
                     //디렉토리가 아닌 파일인 경우
                     else{
                         String fileName = arFiles.get(position);
-                        Toast.makeText(SelectedAudioActivity.this, Uri.fromFile(f).toString(), Toast.LENGTH_SHORT).show();
-                        //mp3파일인 경우, 음악 실행시킴
 
                         if(fileName.contains("'")){
                             Toast.makeText(SelectedAudioActivity.this, "작은 따음표나 큰따음표가 들어간 파일은 인식이 불가능합니다.", Toast.LENGTH_SHORT).show();
